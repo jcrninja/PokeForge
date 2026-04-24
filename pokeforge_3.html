@@ -123,93 +123,8 @@
     padding: 6px 0;
   }
 
-  /* ===== Intro screen ===== */
-  .intro-view {
-    max-width: 720px;
-    margin: 20px auto 40px auto;
-    background:
-      radial-gradient(circle at 25% 0%, rgba(255,203,5,0.08), transparent 55%),
-      radial-gradient(circle at 80% 100%, rgba(255,71,87,0.08), transparent 55%),
-      var(--panel);
-    border: 2px solid var(--border);
-    border-radius: 8px;
-    padding: 44px 36px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 18px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-  }
-  .intro-logo {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 34px;
-    color: var(--accent);
-    text-shadow: 4px 4px 0 var(--accent-2), 8px 8px 0 rgba(0,0,0,0.55);
-    letter-spacing: 4px;
-    margin: 6px 0 0 0;
-  }
-  .intro-tagline {
-    font-family: 'VT323', monospace;
-    font-size: 22px;
-    color: var(--ink-dim);
-    letter-spacing: 5px;
-    margin-bottom: 8px;
-  }
-  .intro-desc {
-    font-family: 'VT323', monospace;
-    font-size: 19px;
-    color: var(--ink);
-    line-height: 1.55;
-    max-width: 560px;
-    letter-spacing: 0.5px;
-    margin: 2px 0 14px 0;
-  }
-  .intro-flow {
-    display: flex;
-    gap: 6px;
-    justify-content: center;
-    flex-wrap: wrap;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 8px;
-    color: var(--ink-dim);
-    letter-spacing: 1px;
-    margin-bottom: 18px;
-  }
-  .intro-flow span {
-    padding: 6px 9px;
-    background: var(--panel-2);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-  }
-  .intro-flow .sep { background: none; border: none; color: var(--accent); padding: 6px 0; }
-  .intro-enter {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 14px;
-    letter-spacing: 3px;
-    padding: 18px 44px;
-    background: var(--accent-2);
-    color: #fff;
-    border: none;
-    border-bottom: 6px solid #a82e3a;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: transform 0.1s, border-bottom-width 0.1s, background 0.15s;
-    text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
-  }
-  .intro-enter:hover { background: #ff6b7a; transform: scale(1.03); }
-  .intro-enter:active { transform: translateY(3px); border-bottom-width: 2px; }
-
-  /* ===== Casino wheel + lever (rarity) ===== */
-  .casino-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 28px;
-    flex-wrap: wrap;
-  }
-  .casino-wheel-wrap {
+  /* ===== Carnival wheel (rarity) — labels rendered by getBBox() constraint ===== */
+  .carnival-wrap {
     position: relative;
     width: 320px;
     height: 320px;
@@ -217,125 +132,37 @@
     align-items: center;
     justify-content: center;
   }
-  .casino-wheel-svg {
+  .carnival-svg {
     width: 100%;
     height: 100%;
-    filter: drop-shadow(0 0 14px rgba(0,0,0,0.55));
-    transform-origin: 50% 50%;
-    will-change: transform;
+    transition: transform 4.2s cubic-bezier(0.17, 0.67, 0.16, 0.99);
+    filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
   }
-  .casino-pointer {
+  .carnival-pointer {
     position: absolute;
-    top: -6px; left: 50%;
-    transform: translateX(-50%) rotate(0deg);
-    transform-origin: 50% 100%;
+    top: -4px; left: 50%;
+    transform: translateX(-50%);
     width: 0; height: 0;
     border-left: 14px solid transparent;
     border-right: 14px solid transparent;
-    border-top: 30px solid var(--accent);
-    filter: drop-shadow(0 2px 0 #8a6a00) drop-shadow(0 3px 4px rgba(0,0,0,0.55));
+    border-top: 26px solid var(--accent);
+    filter: drop-shadow(0 2px 0 #b8940a);
     z-index: 3;
-    transition: transform 0.07s ease-out;
   }
-  .casino-pointer.kick { transform: translateX(-50%) rotate(-14deg); }
-  .casino-hub {
+  .carnival-hub {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    width: 58px; height: 58px;
-    background: radial-gradient(circle at 35% 28%, #ffe686, var(--accent) 55%, #8a6a00 95%);
+    width: 50px; height: 50px;
+    background: radial-gradient(circle, var(--accent) 30%, #b8940a 70%);
     border: 3px solid #1a1d2e;
     border-radius: 50%;
-    box-shadow: inset -4px -4px 8px rgba(0,0,0,0.4), 0 0 10px rgba(255,203,5,0.6);
     z-index: 2;
     font-family: 'Press Start 2P', monospace;
     font-size: 7px;
     display: flex; align-items: center; justify-content: center;
     color: #1a1d2e;
     letter-spacing: 1px;
-  }
-  /* Vintage casino arm lever */
-  .casino-lever {
-    position: relative;
-    width: 90px;
-    height: 300px;
-    cursor: pointer;
-    user-select: none;
-    flex-shrink: 0;
-  }
-  .casino-lever .base {
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 42px;
-    background: linear-gradient(180deg, #555d80 0%, #2a2f48 70%, #1a1d2e 100%);
-    border: 2px solid #0a0c18;
-    border-radius: 6px;
-    box-shadow: inset 0 -4px 8px rgba(0,0,0,0.6), 0 4px 10px rgba(0,0,0,0.5);
-  }
-  .casino-lever .base::before {
-    content: '';
-    position: absolute;
-    top: 6px; left: 8px; right: 8px;
-    height: 3px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 2px;
-  }
-  .casino-lever .pivot {
-    position: absolute;
-    left: 50%;
-    bottom: 28px;
-    transform: translateX(-50%);
-    width: 20px; height: 20px;
-    background: radial-gradient(circle, #ffcb05 30%, #8a6a00 90%);
-    border: 2px solid #0a0c18;
-    border-radius: 50%;
-    z-index: 3;
-  }
-  .casino-lever .arm {
-    position: absolute;
-    left: 50%;
-    bottom: 32px;
-    transform-origin: 50% 100%;
-    transform: translateX(-50%) rotate(0deg);
-    width: 14px;
-    height: 240px;
-    background: linear-gradient(90deg, #3a4060 0%, #b8bedc 40%, #f4e9d8 52%, #b8bedc 64%, #3a4060 100%);
-    border: 2px solid #0a0c18;
-    border-radius: 8px 8px 4px 4px;
-    transition: transform 0.5s cubic-bezier(0.34, 1.6, 0.64, 1);
-    z-index: 2;
-  }
-  .casino-lever .knob {
-    position: absolute;
-    top: -22px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 48px; height: 48px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 32% 28%, #ff9aa3, var(--accent-2) 55%, #6a1020 100%);
-    border: 3px solid #0a0c18;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.6), inset -5px -5px 10px rgba(0,0,0,0.4);
-  }
-  .casino-lever:hover .knob { filter: brightness(1.15); }
-  .casino-lever.pulled .arm { transform: translateX(-50%) rotate(78deg); }
-  .casino-lever-hint {
-    position: absolute;
-    bottom: -26px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: 'Press Start 2P', monospace;
-    font-size: 7px;
-    color: var(--ink-dim);
-    letter-spacing: 1px;
-    white-space: nowrap;
-  }
-  @media (max-width: 720px) {
-    .casino-wrap { gap: 16px; }
-    .casino-lever { width: 70px; height: 240px; }
-    .casino-lever .arm { height: 190px; }
   }
 
   .wheel-legend {
@@ -359,325 +186,248 @@
   .wheel-legend-item .label { color: var(--ink); }
   .wheel-legend-item .pct { color: var(--accent); }
 
-  /* ===== Gold Pokéball coin ===== */
+  /* ===== Coin flip ===== */
   .coin-wrap {
-    perspective: 900px;
-    width: 240px; height: 240px;
+    perspective: 700px;
+    width: 220px; height: 220px;
     display: flex; align-items: center; justify-content: center;
   }
   .coin {
     position: relative;
-    width: 200px; height: 200px;
+    width: 180px; height: 180px;
     transform-style: preserve-3d;
-    transition: transform 3.2s cubic-bezier(0.17, 0.67, 0.16, 0.99);
+    transition: transform 2.8s cubic-bezier(0.17, 0.67, 0.16, 0.99);
     transform: rotateY(0deg);
-    filter: drop-shadow(0 8px 16px rgba(0,0,0,0.6));
   }
   .coin-face {
     position: absolute; inset: 0;
     border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
     backface-visibility: hidden;
-    overflow: hidden;
-    border: 3px solid #4a3600;
-    box-shadow: inset -6px -6px 14px rgba(0,0,0,0.4), inset 4px 4px 10px rgba(255,248,200,0.3);
+    font-family: 'Press Start 2P', monospace;
+    color: #1a1d2e;
+    border: 6px solid #b8940a;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.3), 0 8px 20px rgba(0,0,0,0.5);
+    background: radial-gradient(circle at 35% 30%, #ffe175, var(--accent) 60%, #c99b00);
   }
-  .coin-face svg { width: 100%; height: 100%; display: block; }
   .coin-face.heads { transform: rotateY(0deg); }
   .coin-face.tails { transform: rotateY(180deg); }
+  .coin-face .big { font-size: 14px; letter-spacing: 2px; margin-bottom: 6px; }
+  .coin-face .small { font-size: 8px; letter-spacing: 1px; }
+  .coin-face .icon { font-size: 26px; margin-bottom: 6px; }
 
-  /* ===== Claw machine (types) ===== */
-  .claw-wrap {
-    width: 340px;
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-  .claw-cabinet {
+  /* ===== Gacha machine ===== */
+  .gacha-wrap {
     position: relative;
-    width: 100%;
-    height: 280px;
-    background:
-      radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.10), transparent 55%),
-      linear-gradient(180deg, #2a2f48 0%, #12142a 100%);
-    border: 4px solid #8a6a00;
-    border-radius: 10px 10px 4px 4px;
+    width: 220px;
+    height: 340px;
+    margin: 0 auto;
+  }
+  .gacha-machine {
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 200px; height: 240px;
+    background: linear-gradient(180deg, #3a4070 0%, #252942 100%);
+    border: 3px solid var(--accent);
+    border-radius: 20px 20px 10px 10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+  }
+  .gacha-glass {
+    position: absolute;
+    top: 14px; left: 14px; right: 14px; bottom: 70px;
+    background: radial-gradient(ellipse at 40% 40%, rgba(255,255,255,0.18), rgba(0,0,0,0.5));
+    border-radius: 45% 45% 20% 20%;
+    border: 2px solid rgba(255,255,255,0.2);
     overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.55), inset 0 0 30px rgba(0,0,0,0.5);
   }
-  .claw-cabinet::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg, rgba(255,255,255,0.06) 0%, transparent 40%);
-    pointer-events: none;
-  }
-  .claw-rail {
-    position: absolute;
-    top: 12px;
-    left: 8px; right: 8px;
-    height: 5px;
-    background: linear-gradient(180deg, #a88200, #5a4400);
-    border-radius: 2px;
-    z-index: 3;
-    box-shadow: 0 1px 0 rgba(0,0,0,0.4);
-  }
-  .claw-arm {
-    position: absolute;
-    top: 17px;
-    left: 50%;
-    width: 2px;
-    height: 30px;
-    background: linear-gradient(90deg, #4a3600, #c9cee0, #4a3600);
-    transform: translateX(-50%);
-    z-index: 4;
-    transition: left 0.8s cubic-bezier(0.4,0,0.6,1), height 1.2s cubic-bezier(0.5,0,0.5,1);
-  }
-  .claw-head {
-    position: absolute;
-    bottom: -14px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 36px;
-    height: 18px;
-  }
-  .claw-finger {
-    position: absolute;
-    top: 0;
-    width: 14px;
-    height: 22px;
-    background: linear-gradient(180deg, #e0e4f0 0%, #808aa8 55%, #303554 100%);
-    border: 1px solid #0a0c18;
-    transition: transform 0.3s cubic-bezier(0.4,0,0.6,1);
-  }
-  .claw-finger.left {
-    left: 0;
-    clip-path: polygon(0% 0%, 100% 0%, 100% 45%, 60% 100%, 0% 100%);
-    transform-origin: 100% 0%;
-  }
-  .claw-finger.right {
-    right: 0;
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 40% 100%, 0% 45%);
-    transform-origin: 0% 0%;
-  }
-  .claw-arm.closing .claw-finger.left  { transform: rotate(22deg); }
-  .claw-arm.closing .claw-finger.right { transform: rotate(-22deg); }
-  .claw-grabbed {
-    position: absolute;
-    width: 30px; height: 30px;
-    border-radius: 50%;
-    top: 100%;
-    left: 50%;
-    margin-left: -15px;
-    margin-top: -4px;
-    border: 2px solid #0a0c18;
-    box-shadow: inset -4px -4px 6px rgba(0,0,0,0.45), 0 2px 4px rgba(0,0,0,0.5);
-    opacity: 0;
-    transition: opacity 0.15s;
-    z-index: 2;
-  }
-  .claw-grabbed.visible { opacity: 1; }
-  .claw-pool {
-    position: absolute;
-    left: 0; right: 0;
-    top: 90px; bottom: 0;
-    pointer-events: none;
-    z-index: 1;
-  }
-  .claw-ball {
+  .gacha-ball-mini {
     position: absolute;
     width: 22px; height: 22px;
     border-radius: 50%;
-    border: 2px solid #0a0c18;
-    box-shadow: inset -3px -3px 5px rgba(0,0,0,0.45), 0 2px 3px rgba(0,0,0,0.4);
-    animation: clawBounce 3s ease-in-out infinite;
+    border: 2px solid #000;
+    animation: floatBall 3.4s ease-in-out infinite;
   }
-  @keyframes clawBounce {
+  @keyframes floatBall {
     0%, 100% { transform: translateY(0) rotate(0deg); }
-    50%      { transform: translateY(-6px) rotate(180deg); }
+    50% { transform: translateY(-10px) rotate(180deg); }
   }
-  .claw-chute {
+  .gacha-slot {
     position: absolute;
-    bottom: 0; right: 6px;
-    width: 54px; height: 40px;
-    background: linear-gradient(180deg, #0a0c18 0%, #1a1d2e 100%);
-    border-top: 2px solid #8a6a00;
-    border-left: 2px solid #8a6a00;
-    border-radius: 4px 0 0 0;
-    z-index: 2;
-  }
-  .claw-chute::after {
-    content: 'OUT';
-    position: absolute;
-    top: 12px; left: 50%;
+    bottom: 10px; left: 50%;
     transform: translateX(-50%);
-    font-family: 'Press Start 2P', monospace;
-    font-size: 7px;
-    color: var(--accent);
-    letter-spacing: 1px;
+    width: 70px; height: 34px;
+    background: #0f1220;
+    border: 2px solid #0a0c18;
+    border-radius: 6px;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.7);
   }
-  .claw-reveal {
-    min-height: 78px;
+  .gacha-knob {
+    position: absolute;
+    bottom: 12px; right: 22px;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-2) 40%, #a82e3a 80%);
+    border: 2px solid #1a1d2e;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.6);
+  }
+  .gacha-prize {
+    position: absolute;
+    bottom: 10px; left: 50%;
+    transform: translateX(-50%);
+    width: 74px; height: 74px;
+    border-radius: 50%;
+    border: 3px solid #000;
+    z-index: 5;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.7);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 14px;
-    flex-wrap: wrap;
-    padding: 6px 0;
-  }
-  .claw-reveal-slot {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    min-width: 80px;
-  }
-  .claw-reveal-ball {
-    width: 52px; height: 52px;
-    border-radius: 50%;
-    background: repeating-conic-gradient(#3a4060 0 10deg, #252942 10deg 20deg);
-    border: 3px solid #0a0c18;
-    position: relative;
-    overflow: hidden;
-    opacity: 0;
-    transform: scale(0.5);
-    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s;
-    box-shadow: inset -4px -4px 8px rgba(0,0,0,0.4), 0 3px 6px rgba(0,0,0,0.5);
-  }
-  .claw-reveal-ball.visible { opacity: 1; transform: scale(1); }
-  .claw-reveal-ball.popped::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, transparent 70%);
-    animation: ballPop 0.55s ease-out forwards;
-  }
-  @keyframes ballPop {
-    0%   { transform: scale(0.3); opacity: 1; }
-    100% { transform: scale(2.5); opacity: 0; }
-  }
-  .claw-reveal-label {
     font-family: 'Press Start 2P', monospace;
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    color: var(--ink);
+    font-size: 8px;
+    color: #fff;
+    text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+    text-align: center;
+    padding: 4px;
+    letter-spacing: 0.5px;
+    line-height: 1.1;
     opacity: 0;
-    transition: opacity 0.3s;
-    padding: 4px 8px;
-    border-radius: 3px;
+    background: #444;
   }
-  .claw-reveal-label.visible { opacity: 1; }
-  .claw-status {
-    font-family: 'VT323', monospace;
-    font-size: 15px;
-    color: var(--ink-dim);
-    letter-spacing: 2px;
-    min-height: 22px;
+  .gacha-prize.visible { opacity: 1; }
+  .gacha-prize.rolling {
+    animation: rollGachaBall 2.6s cubic-bezier(0.34, 1.25, 0.64, 1) forwards;
+  }
+  @keyframes rollGachaBall {
+    0%   { top: 180px; left: 50%; transform: translateX(-50%) rotate(0deg); opacity: 1; }
+    45%  { top: 230px; left: 50%; transform: translateX(-50%) rotate(720deg); }
+    60%  { top: 260px; left: 35%; transform: translateX(0) rotate(900deg); }
+    75%  { top: 262px; left: 65%; transform: translateX(-100%) rotate(1100deg); }
+    100% { top: 266px; left: 50%; transform: translateX(-50%) rotate(1260deg); opacity: 1; }
   }
 
-  /* ===== Slot machine (stage) ===== */
-  .slot-wrap {
-    width: 340px;
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-  .slot-machine {
+  /* ===== Slot reel (type2 mystery) ===== */
+  .reel {
     position: relative;
+    height: 56px;
     width: 100%;
-    background:
-      radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08), transparent 60%),
-      linear-gradient(180deg, #b02020 0%, #8a1010 70%, #4a0808 100%);
-    border: 4px solid #5a0808;
-    border-radius: 12px 12px 6px 6px;
-    padding: 14px 12px 24px 12px;
-    box-shadow: 0 10px 24px rgba(0,0,0,0.55), inset 0 0 24px rgba(0,0,0,0.35);
-  }
-  .slot-machine::before {
-    content: '';
-    position: absolute;
-    top: 6px; left: 8px; right: 8px;
-    height: 10px;
-    background: linear-gradient(90deg, #ffcb05 0%, #ffe686 50%, #ffcb05 100%);
-    border: 1px solid #5a4400;
-    border-radius: 2px;
-  }
-  .slot-frame {
-    position: relative;
+    max-width: 340px;
     background: #0f1220;
-    border: 4px solid #2a2f48;
-    border-radius: 6px;
-    padding: 6px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-    margin-top: 14px;
-  }
-  .slot-reel {
-    height: 84px;
-    background: linear-gradient(180deg, #1a1d2e 0%, #0a0c18 100%);
-    border: 2px inset #05060c;
+    border: 3px inset #0a0c18;
     border-radius: 4px;
     overflow: hidden;
-    position: relative;
-    box-shadow: inset 0 0 12px rgba(0,0,0,0.7);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
   }
-  .slot-reel::before, .slot-reel::after {
-    content: '';
+  .reel::before, .reel::after {
+    content: ''; position: absolute; left: 0; right: 0;
+    height: 12px; pointer-events: none; z-index: 2;
+  }
+  .reel::before { top: 0; background: linear-gradient(180deg, #0f1220, transparent); }
+  .reel::after { bottom: 0; background: linear-gradient(0deg, #0f1220, transparent); }
+  .reel-track { position: absolute; left: 0; right: 0; top: 0; }
+  .reel-track.spinning { transition: transform 2.6s cubic-bezier(0.22, 0.85, 0.3, 1); }
+  .reel-item {
+    height: 56px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'VT323', monospace;
+    font-size: 26px;
+    letter-spacing: 2px;
+    padding: 0 8px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .reel-item.mystery {
+    color: var(--accent);
+    font-style: italic;
+    letter-spacing: 8px;
+    font-size: 28px;
+  }
+  .reel-indicator {
     position: absolute;
-    left: 0; right: 0;
-    height: 18px;
-    pointer-events: none;
-    z-index: 2;
-  }
-  .slot-reel::before { top: 0; background: linear-gradient(180deg, #0a0c18, transparent); }
-  .slot-reel::after  { bottom: 0; background: linear-gradient(0deg, #0a0c18, transparent); }
-  .slot-strip {
-    position: absolute;
-    left: 0; right: 0; top: 0;
-    transition: none;
-  }
-  .slot-strip.spinning {
-    transition: transform var(--slot-dur, 2.4s) cubic-bezier(0.22, 0.75, 0.3, 1);
-  }
-  .slot-cell {
-    height: 84px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .slot-cell svg { width: 58px; height: 58px; display: block; }
-  .slot-payline {
-    position: absolute;
-    top: 50%;
-    left: 0; right: 0;
+    left: -3px; right: -3px; top: 50%;
     height: 2px;
     transform: translateY(-1px);
     background: var(--accent);
-    box-shadow: 0 0 6px var(--accent);
-    opacity: 0.55;
-    pointer-events: none;
     z-index: 3;
+    box-shadow: 0 0 6px var(--accent);
+    opacity: 0.65;
   }
-  .slot-status {
-    font-family: 'VT323', monospace;
-    font-size: 15px;
-    color: var(--ink-dim);
-    letter-spacing: 2px;
-    text-align: center;
-    min-height: 22px;
+
+  /* ===== Lever (stage) ===== */
+  .lever-wrap {
+    width: 380px;
+    max-width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-  .slot-tally {
+  .lever-track {
+    width: 340px;
+    max-width: 100%;
+    height: 54px;
+    background: #0f1220;
+    border: 3px inset #0a0c18;
+    border-radius: 27px;
+    position: relative;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.6);
+  }
+  .lever-stops {
+    position: absolute;
+    top: 50%; left: 40px; right: 40px;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .lever-stop {
+    width: 6px;
+    height: 24px;
+    background: var(--border);
+    border-radius: 3px;
+  }
+  .lever-stop.active { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+  .lever-handle {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 44px; height: 44px;
+    background: radial-gradient(circle at 35% 30%, #ff7a83, var(--accent-2));
+    border: 3px solid #1a1d2e;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    transition: left 2.2s cubic-bezier(0.17, 0.67, 0.16, 0.99);
+    left: 50%;
+    z-index: 2;
+  }
+  .lever-labels {
+    display: flex;
+    justify-content: space-between;
+    width: 340px;
+    max-width: 100%;
+    margin-top: 16px;
+    padding: 0 14px;
+  }
+  .lever-labels span {
     font-family: 'Press Start 2P', monospace;
-    font-size: 10px;
-    color: var(--accent);
-    letter-spacing: 2px;
+    font-size: 8px;
+    color: var(--ink-dim);
+    letter-spacing: 1px;
     text-align: center;
-    min-height: 14px;
+    flex: 1;
+  }
+  .lever-labels span.active {
+    color: var(--accent);
+    text-shadow: 0 0 6px var(--accent);
+  }
+  .lever-disabled-note {
+    font-family: 'VT323', monospace;
+    font-size: 14px;
+    color: var(--ink-dim);
+    margin-top: 14px;
+    text-align: center;
+    padding: 0 14px;
   }
 
   /* ===== Card deal (perk) ===== */
@@ -736,15 +486,6 @@
   }
   .card .front .icon { font-size: 22px; }
   .card.flipped { transform: rotateY(180deg) scale(1.6) translateY(-10px); z-index: 10; }
-  .card.card-pickable { cursor: pointer; }
-  .card.card-pickable:hover .face { box-shadow: 0 6px 14px rgba(0,0,0,0.6), 0 0 18px var(--accent); }
-  .card.card-pickable:hover { z-index: 5; filter: brightness(1.15); }
-  .card .front .card-detail-name {
-    font-size: 5px; margin-top: 3px; opacity: 0.85; line-height: 1.3;
-    max-width: 70px; word-break: break-word; text-align: center;
-  }
-  @keyframes perkReveal { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-  .perk-reveal-anim { animation: perkReveal 0.45s ease-out; }
 
   /* ===== Stats bars ===== */
   .stats-bars-wrap {
@@ -956,45 +697,6 @@
     display: flex; align-items: center; justify-content: center;
   }
   .art-frame > svg, .art-frame > img { width: 100%; height: 100%; display: block; }
-  .art-frame-form {
-    background: repeating-linear-gradient(45deg, #0f1220 0 10px, #131628 10px 20px);
-    border: 2px inset #0a0c18;
-    border-radius: 4px;
-    position: relative;
-    overflow: hidden;
-    aspect-ratio: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .art-frame-form > svg, .art-frame-form > img { width: 100%; height: 100%; display: block; }
-  .art-form-label {
-    position: absolute;
-    top: 6px; left: 6px;
-    background: rgba(10,12,24,0.8);
-    color: var(--accent);
-    font-family: 'Press Start 2P', monospace;
-    font-size: 8px;
-    padding: 4px 8px;
-    border-radius: 3px;
-    letter-spacing: 1px;
-    z-index: 2;
-    border: 1px solid var(--accent);
-  }
-  .art-frame.has-form::after {
-    content: 'NORMAL';
-    position: absolute;
-    top: 6px; left: 6px;
-    background: rgba(10,12,24,0.8);
-    color: var(--ink);
-    font-family: 'Press Start 2P', monospace;
-    font-size: 8px;
-    padding: 4px 8px;
-    border-radius: 3px;
-    letter-spacing: 1px;
-    z-index: 2;
-    border: 1px solid var(--border);
-  }
   .art-empty {
     font-family: 'VT323', monospace;
     font-size: 20px;
@@ -1275,27 +977,7 @@
 </div>
 
 <div class="dex-page active" id="page-forge">
-  <div class="intro-view" id="intro-view">
-    <div class="intro-logo">POKÉFORGE</div>
-    <div class="intro-tagline">&lt; FORGE YOUR OWN MON &gt;</div>
-    <div class="intro-desc">
-      Step into the Forge. One Pokémon awaits — but every trait is decided by luck.
-      Spin the Wheel of Fate, flip a golden coin, let the claw pick your types, stop the
-      reels, and accept whatever perks and stats the forge decides. No re-rolls. No
-      take-backs. What you forge is yours to keep.
-    </div>
-    <div class="intro-flow">
-      <span>RARITY</span><span class="sep">▸</span>
-      <span>COIN</span><span class="sep">▸</span>
-      <span>TYPES</span><span class="sep">▸</span>
-      <span>STAGE</span><span class="sep">▸</span>
-      <span>PERK</span><span class="sep">▸</span>
-      <span>STATS</span>
-    </div>
-    <button class="intro-enter" id="btn-enter-forge">⚒ ENTER THE FORGE ⚒</button>
-  </div>
-
-  <div class="wizard-grid hidden" id="wizard-view">
+  <div class="wizard-grid" id="wizard-view">
     <div class="wizard-main">
       <div class="step-indicator" id="step-indicator"></div>
       <h2 class="step-title" id="step-title">— STEP —</h2>
@@ -1320,15 +1002,16 @@
         <div class="art-frame" id="art-frame">
           <div class="art-empty">READY TO FORGE<br><span style="font-size:14px; opacity:0.7;">Tap Generate</span></div>
         </div>
-        <div class="art-frame-form hidden" id="art-frame-form"></div>
         <div id="rarity-banner-wrap"></div>
         <h2 class="poke-name" id="poke-name">???</h2>
         <div class="poke-species" id="poke-species">—</div>
         <div class="type-chips" id="type-chips"></div>
         <div style="display:flex; flex-direction:column; gap:6px;">
-          <button class="btn" id="btn-generate-art">🎨 GENERATE ART</button>
+          <button class="btn" id="btn-generate-art">🎨 GENERATE AI ART</button>
+          <button class="btn secondary" id="btn-procedural-art">✏️ PROCEDURAL ART (FALLBACK)</button>
+          <button class="btn secondary" id="btn-ai-settings" style="font-size:8px;">⚙ AI SETTINGS</button>
           <button class="btn" id="btn-save-dex" style="background: var(--accent-2); color:#fff; border-bottom-color:#a82e3a;">+ ADD TO POKÉDEX</button>
-          <button class="btn secondary" id="btn-forge-another">⚒ FORGE ANOTHER</button>
+          <button class="btn secondary" id="btn-back-to-wizard">◄ BACK TO FORGE</button>
         </div>
       </div>
       <div class="final-info-col">
@@ -1358,18 +1041,13 @@
   // DATA
   // ============================================================
 
-  // Stage-aware BST ranges for NORMAL; fixed-stage rarities use their own range.
   const RARITIES = [
-    { name: 'NORMAL',           weight: 60, color: '#68a090', maxStage: 3,
-      bstByStage: { 1: [180, 590], 2: [205, 490], 3: [380, 700] } },
-    { name: 'PSEUDO-LEGENDARY', weight: 17, color: '#7b68a0', maxStage: 3, forceFinal: true,
-      bstByStage: { 3: [600, 600] } },
-    { name: 'ULTRA BEAST',      weight: 11, color: '#c062a0', maxStage: 1,
-      bstByStage: { 1: [420, 570] } },
-    { name: 'MYTHICAL',         weight:  8, color: '#e8a838', maxStage: 1,
-      bstByStage: { 1: [600, 720] } },
-    { name: 'LEGENDARY',        weight:  4, color: '#d04040', maxStage: 1,
-      bstByStage: { 1: [570, 780] } },
+    { name: 'NORMAL',           weight: 55, color: '#68a090', statMin: 200, statMax: 450, maxStage: 3 },
+    { name: 'PSEUDO-LEGENDARY', weight: 15, color: '#7b68a0', statMin: 580, statMax: 620, maxStage: 3, forceFinal: true },
+    { name: 'ULTRA BEAST',      weight: 10, color: '#c062a0', statMin: 540, statMax: 600, maxStage: 1, mysteryBias: true },
+    { name: 'SUB-LEGENDARY',    weight:  9, color: '#4a78c0', statMin: 560, statMax: 600, maxStage: 1 },
+    { name: 'MYTHICAL',         weight:  7, color: '#e8a838', statMin: 580, statMax: 620, maxStage: 1 },
+    { name: 'LEGENDARY',        weight:  4, color: '#d04040', statMin: 660, statMax: 720, maxStage: 1 },
   ];
 
   const TYPES = [
@@ -1384,16 +1062,21 @@
     { name:'STEEL', color:'#b8b8d0' }, { name:'FAIRY', color:'#ee99ac' },
   ];
 
+  const MYSTERY_TYPES = [
+    { name:'COSMIC', color:'#4a2c82' }, { name:'PLASMA', color:'#ff5e8a' },
+    { name:'SOUND', color:'#a8e0d8' }, { name:'CRYSTAL', color:'#c8f0ff' },
+    { name:'MIRAGE', color:'#e8c890' }, { name:'VOID', color:'#2a1a4e' },
+    { name:'AETHER', color:'#d0c8f0' }, { name:'MAGMA', color:'#c82020' },
+    { name:'GRAVITY', color:'#484878' }, { name:'TIME', color:'#d0a838' },
+  ];
 
-  // Perks — no rarity gating, heavily weighted toward "no perk". The card count
-  // on screen is visual only; the winner is always a weighted pick regardless of
-  // which card the user clicks.
+  // Focused perk list: abilities + signature move + mega + gigantamax
   const PERKS = [
-    { name:'NO PERK',          weight: 75, icon: '—', kind: 'none',    color: '#5a6080' },
-    { name:'SPECIAL ABILITY',  weight: 12, icon: '✦', kind: 'ability', color: '#68a090' },
-    { name:'SIGNATURE MOVE',   weight:  7, icon: '⚡', kind: 'move',    color: '#c062a0' },
-    { name:'MEGA EVOLUTION',   weight:  4, icon: '✧', kind: 'mega',    color: '#e8a838' },
-    { name:'GIGANTAMAX',       weight:  2, icon: '☗', kind: 'giga',    color: '#d04040' },
+    { name:'STANDARD ABILITY', weight: 50, icon: '◆', kind: 'ability', color: '#68a090' },
+    { name:'HIDDEN ABILITY',   weight: 25, icon: '✦', kind: 'ability', color: '#7b68a0' },
+    { name:'SIGNATURE MOVE',   weight: 15, icon: '⚡', kind: 'move',    color: '#c062a0' },
+    { name:'MEGA EVOLUTION',   weight:  7, icon: '✧', kind: 'mega',    color: '#e8a838', rarityMin: 1, requireFinal: true },
+    { name:'GIGANTAMAX',       weight:  3, icon: '☗', kind: 'giga',    color: '#d04040', rarityMin: 2 },
   ];
 
   const STAT_NAMES = ['HP', 'ATK', 'DEF', 'SPA', 'SPD', 'SPE'];
@@ -1499,8 +1182,6 @@
     stats: { HP:null, ATK:null, DEF:null, SPA:null, SPD:null, SPE:null },
     name: null, species: null, flavor: null,
     aiArtData: null,
-    aiArtFormData: null,   // optional second render for Mega / Gigantamax
-    aiArtFormKind: null,   // 'mega' | 'giga' | null
     isMystery: false,
     dexNum: null,
     step: 0,
@@ -1576,15 +1257,17 @@
   // ============================================================
 
   const STEPS = [
-    { key: 'rarity',    label: 'RARITY',       sub: '' },
-    { key: 'typecount', label: 'TYPE COUNT',   sub: '' },
-    { key: 'types',     label: 'TYPES',        sub: 'Drop the claw and grab your type(s) from the pool.' },
-    { key: 'stage',     label: 'STAGE',        sub: 'Stop the reels. Aligned Pokéballs = evolutionary stage.' },
-    { key: 'perk',      label: 'SPECIAL PERK', sub: 'Deal the cards. Most Pokémon carry no special perk.' },
-    { key: 'stats',     label: 'BASE STATS',   sub: 'Roll base stats within this rarity/stage\'s real-Pokémon BST range.' },
+    { key: 'rarity',    label: 'RARITY',         sub: 'The carnival wheel — heavily weighted. Legendaries are rare.' },
+    { key: 'typecount', label: 'TYPE COUNT',     sub: 'Flip the coin: single-type or dual-type?' },
+    { key: 'type1',     label: 'PRIMARY TYPE',   sub: 'Crank the gacha machine for your primary type.' },
+    { key: 'type2',     label: 'SECONDARY TYPE', sub: 'Slot reel. A rare ??? unlocks a never-before-seen type…' },
+    { key: 'stage',     label: 'STAGE',          sub: 'Pull the lever: base form, mid form, or final form?' },
+    { key: 'perk',      label: 'SPECIAL PERK',   sub: 'Deal the cards. Ability, signature move, Mega, or Gigantamax?' },
+    { key: 'stats',     label: 'BASE STATS',     sub: 'Randomize your stat bars, based on all your selections.' },
   ];
 
   function isStepAvailable(idx) {
+    if (STEPS[idx].key === 'type2' && state.typeCount === 1) return false;
     return true;
   }
 
@@ -1593,7 +1276,8 @@
     switch (k) {
       case 'rarity':    return !!state.rarity;
       case 'typecount': return state.typeCount != null;
-      case 'types':     return !!state.type1 && (state.typeCount === 1 || !!state.type2);
+      case 'type1':     return !!state.type1;
+      case 'type2':     return state.typeCount === 1 || !!state.type2;
       case 'stage':     return !!state.stage;
       case 'perk':      return !!state.perk;
       case 'stats':     return STAT_NAMES.every(s => state.stats[s] != null);
@@ -1613,10 +1297,11 @@
       { label: 'RARITY', val: state.rarity ? state.rarity.name : null, stepKey: 'rarity',
         style: state.rarity ? `color:${state.rarity.color};` : '' },
       { label: 'COUNT',  val: state.typeCount ? (state.typeCount === 1 ? 'SINGLE' : 'DUAL') : null, stepKey: 'typecount' },
-      { label: 'TYPE 1', val: state.type1 ? state.type1.name : null, stepKey: 'types',
+      { label: 'TYPE 1', val: state.type1 ? state.type1.name : null, stepKey: 'type1',
         style: state.type1 ? `color:${state.type1.color};` : '' },
-      { label: 'TYPE 2', val: state.typeCount === 1 ? '—' : (state.type2 ? state.type2.name : null), stepKey: 'types',
-        style: state.type2 ? `color:${state.type2.color};` : '' },
+      { label: 'TYPE 2', val: state.typeCount === 1 ? '—' : (state.type2 ? state.type2.name : null), stepKey: 'type2',
+        style: state.type2 ? `color:${state.type2.color};` : '',
+        mystery: state.isMystery },
       { label: 'STAGE',  val: state.stage ? `${state.stage} / 3` : null, stepKey: 'stage' },
       { label: 'PERK',   val: state.perk ? state.perk.name : null, stepKey: 'perk' },
       { label: 'STATS',  val: STAT_NAMES.every(s => state.stats[s] != null)
@@ -1647,16 +1332,16 @@
   }
 
   // ============================================================
-  // CASINO WHEEL (RARITY) — SVG + pegs on rim. The pointer is CSS.
+  // CARNIVAL WHEEL (RARITY)
+  // Labels are completely omitted from the SVG — the legend below
+  // handles them, which solves all overflow issues once and for all.
   // ============================================================
 
-  function renderCasinoWheel(segments, size = 320) {
-    const cx = size / 2, cy = size / 2, r = size / 2 - 10;
+  function renderCarnivalWheel(segments, size = 320) {
+    const cx = size / 2, cy = size / 2, r = size / 2 - 8;
     const totalWeight = segments.reduce((s, x) => s + (x.weight || 1), 0);
     let angle = -Math.PI / 2;
     let paths = '';
-    let pegs = '';
-    let ticks = '';
     segments.forEach((seg) => {
       const w = seg.weight || 1;
       const sweep = (w / totalWeight) * Math.PI * 2;
@@ -1669,165 +1354,15 @@
       const y1 = cy + Math.sin(a1) * r;
       paths += `<path d="M ${cx} ${cy} L ${x0.toFixed(1)} ${y0.toFixed(1)} A ${r} ${r} 0 ${large} 1 ${x1.toFixed(1)} ${y1.toFixed(1)} Z"
                       fill="${seg.color || '#888'}"
-                      stroke="#0a0c18" stroke-width="2.5"
-                      opacity="0.97" />`;
-      // Radial tick stripe at segment start
-      const tx0 = cx + Math.cos(a0) * (r * 0.35);
-      const ty0 = cy + Math.sin(a0) * (r * 0.35);
-      const tx1 = cx + Math.cos(a0) * r;
-      const ty1 = cy + Math.sin(a0) * r;
-      ticks += `<line x1="${tx0.toFixed(1)}" y1="${ty0.toFixed(1)}" x2="${tx1.toFixed(1)}" y2="${ty1.toFixed(1)}" stroke="rgba(0,0,0,0.35)" stroke-width="1"/>`;
-      // Peg at segment boundary
-      const px = cx + Math.cos(a0) * (r - 4);
-      const py = cy + Math.sin(a0) * (r - 4);
-      pegs += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="4.5" fill="#ffe686" stroke="#0a0c18" stroke-width="1.5"/>`;
+                      stroke="#1a1d2e" stroke-width="2"
+                      opacity="0.95" />`;
       angle = a1;
     });
-    return `<svg class="casino-wheel-svg" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="${cx}" cy="${cy}" r="${r + 7}" fill="#1a1d2e" stroke="#ffcb05" stroke-width="4"/>
-      <circle cx="${cx}" cy="${cy}" r="${r + 3}" fill="none" stroke="#8a6a00" stroke-width="2"/>
+    return `<svg class="carnival-svg" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="${cx}" cy="${cy}" r="${r + 4}" fill="#1a1d2e" stroke="#ffcb05" stroke-width="4"/>
       ${paths}
-      ${ticks}
-      <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#0a0c18" stroke-width="2"/>
-      ${pegs}
+      <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#1a1d2e" stroke-width="2"/>
     </svg>`;
-  }
-
-  // ============================================================
-  // GOLD POKÉBALL COIN (typecount)
-  // ============================================================
-  function renderPokeballCoin(pips) {
-    // pips: 1 for single-type side, 2 for dual-type side.
-    const pipsSvg = pips === 1
-      ? `<circle cx="100" cy="100" r="6" fill="#2a1e00"/>`
-      : `<circle cx="92" cy="100" r="5" fill="#2a1e00"/><circle cx="108" cy="100" r="5" fill="#2a1e00"/>`;
-    const label = pips === 1 ? 'I' : 'II';
-    // Rim dots (minted edge effect).
-    let edgeDots = '';
-    for (let i = 0; i < 40; i++) {
-      const a = (i / 40) * Math.PI * 2;
-      const x = 100 + Math.cos(a) * 94;
-      const y = 100 + Math.sin(a) * 94;
-      edgeDots += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.2" fill="#4a3600" opacity="0.75"/>`;
-    }
-    return `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-      <defs>
-        <radialGradient id="goldTop${pips}" cx="40%" cy="25%" r="80%">
-          <stop offset="0%" stop-color="#fff6c8"/>
-          <stop offset="50%" stop-color="#f4c024"/>
-          <stop offset="100%" stop-color="#a8832a"/>
-        </radialGradient>
-        <radialGradient id="goldBot${pips}" cx="50%" cy="80%" r="70%">
-          <stop offset="0%" stop-color="#e8b210"/>
-          <stop offset="100%" stop-color="#5a4400"/>
-        </radialGradient>
-        <radialGradient id="goldBtn${pips}" cx="35%" cy="28%">
-          <stop offset="0%" stop-color="#fff8d0"/>
-          <stop offset="70%" stop-color="#f4c024"/>
-          <stop offset="100%" stop-color="#5a4400"/>
-        </radialGradient>
-      </defs>
-      <!-- Rim -->
-      <circle cx="100" cy="100" r="98" fill="#c99400"/>
-      <circle cx="100" cy="100" r="94" fill="#e0b820"/>
-      ${edgeDots}
-      <!-- Pokéball top/bottom hemispheres -->
-      <path d="M 14 100 A 86 86 0 0 1 186 100 Z" fill="url(#goldTop${pips})"/>
-      <path d="M 14 100 A 86 86 0 0 0 186 100 Z" fill="url(#goldBot${pips})"/>
-      <!-- Central belt -->
-      <rect x="14" y="95" width="172" height="10" fill="#4a3600"/>
-      <rect x="14" y="97" width="172" height="2" fill="#ffe686" opacity="0.55"/>
-      <!-- Center button -->
-      <circle cx="100" cy="100" r="28" fill="#4a3600"/>
-      <circle cx="100" cy="100" r="24" fill="url(#goldBtn${pips})"/>
-      <circle cx="100" cy="100" r="18" fill="none" stroke="#4a3600" stroke-width="2" opacity="0.8"/>
-      ${pipsSvg}
-      <!-- Arc legend -->
-      <text x="100" y="34" text-anchor="middle" font-family="Press Start 2P, monospace" font-size="10" fill="#4a3600" letter-spacing="1">POKÉFORGE</text>
-      <text x="100" y="180" text-anchor="middle" font-family="Press Start 2P, monospace" font-size="12" fill="#4a3600" letter-spacing="2">${label}</text>
-    </svg>`;
-  }
-
-  // ============================================================
-  // CLAW MACHINE (types)
-  // ============================================================
-  function renderClawMachine() {
-    // Decorative floating balls in the pool — random subset of type colors.
-    const poolColors = [];
-    const shuffled = [...TYPES].sort(() => Math.random() - 0.5).slice(0, 12);
-    shuffled.forEach(t => poolColors.push(t.color));
-    const ballsHtml = poolColors.map((c, i) => {
-      const left = 4 + (i % 4) * 23 + (Math.random() * 6 - 3);
-      const top  = 4 + Math.floor(i / 4) * 30 + (Math.random() * 6 - 3);
-      const delay = (Math.random() * 3).toFixed(2);
-      return `<div class="claw-ball" style="background:${c}; left:${left}%; top:${top}%; animation-delay:${delay}s;"></div>`;
-    }).join('');
-    return `<div class="claw-wrap">
-      <div class="claw-cabinet">
-        <div class="claw-rail"></div>
-        <div class="claw-arm" id="claw-arm" style="left:50%; height:30px;">
-          <div class="claw-head">
-            <div class="claw-finger left"></div>
-            <div class="claw-finger right"></div>
-            <div class="claw-grabbed" id="claw-grabbed"></div>
-          </div>
-        </div>
-        <div class="claw-pool">${ballsHtml}</div>
-        <div class="claw-chute"></div>
-      </div>
-      <div class="claw-reveal" id="claw-reveal">
-        <div class="claw-reveal-slot">
-          <div class="claw-reveal-ball" id="claw-reveal-1"></div>
-          <div class="claw-reveal-label" id="claw-label-1">TYPE 1</div>
-        </div>
-        ${state.typeCount === 2 ? `<div class="claw-reveal-slot">
-          <div class="claw-reveal-ball" id="claw-reveal-2"></div>
-          <div class="claw-reveal-label" id="claw-label-2">TYPE 2</div>
-        </div>` : ''}
-      </div>
-      <div class="claw-status" id="claw-status">
-        ${state.typeCount === 2 ? 'Two types — the claw will pull twice.' : 'One type — the claw will pull once.'}
-      </div>
-    </div>`;
-  }
-
-  // ============================================================
-  // SLOT MACHINE (stage)
-  // ============================================================
-  const SLOT_POKEBALL = `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <radialGradient id="pbRed" cx="40%" cy="35%"><stop offset="0%" stop-color="#ff8080"/><stop offset="60%" stop-color="#d04040"/><stop offset="100%" stop-color="#7a1020"/></radialGradient>
-      <radialGradient id="pbWhite" cx="40%" cy="60%"><stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#b0b8c8"/></radialGradient>
-    </defs>
-    <path d="M 4 30 A 26 26 0 0 1 56 30 Z" fill="url(#pbRed)" stroke="#0a0c18" stroke-width="2.5"/>
-    <path d="M 4 30 A 26 26 0 0 0 56 30 Z" fill="url(#pbWhite)" stroke="#0a0c18" stroke-width="2.5"/>
-    <rect x="4" y="27" width="52" height="6" fill="#0a0c18"/>
-    <circle cx="30" cy="30" r="8" fill="#ffffff" stroke="#0a0c18" stroke-width="2.5"/>
-    <circle cx="30" cy="30" r="3.5" fill="#ffffff" stroke="#0a0c18" stroke-width="1.5"/>
-  </svg>`;
-  const SLOT_BLANK = `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="30" cy="30" r="20" fill="none" stroke="#5a6080" stroke-width="3"/>
-    <line x1="16" y1="16" x2="44" y2="44" stroke="#5a6080" stroke-width="3" stroke-linecap="round"/>
-    <line x1="44" y1="16" x2="16" y2="44" stroke="#5a6080" stroke-width="3" stroke-linecap="round"/>
-  </svg>`;
-
-  function renderSlotMachine() {
-    // Three reels, pre-seeded with a single visible symbol so the frame isn't
-    // empty before the spin starts. Strips get rewritten by animateSlotMachine.
-    const seed = () => Math.random() < 0.5 ? SLOT_POKEBALL : SLOT_BLANK;
-    const reel = (i) => `<div class="slot-reel" id="slot-reel-${i}">
-      <div class="slot-strip" id="slot-strip-${i}"><div class="slot-cell">${seed()}</div></div>
-    </div>`;
-    return `<div class="slot-wrap">
-      <div class="slot-machine">
-        <div class="slot-frame">
-          ${reel(0)}${reel(1)}${reel(2)}
-          <div class="slot-payline"></div>
-        </div>
-      </div>
-      <div class="slot-status" id="slot-status">3 reels. Pokéballs on the pay line = stage.</div>
-      <div class="slot-tally" id="slot-tally"></div>
-    </div>`;
   }
 
   function renderWheelLegend(segments) {
@@ -1853,32 +1388,127 @@
       case 'rarity':
         return RARITIES.map(r => ({ label: r.name, color: r.color, weight: r.weight, value: r }));
 
-      case 'typecount':
-        // True 50/50, unaffected by rarity.
+      case 'typecount': {
+        let singleW = 50, dualW = 50;
+        if (state.rarity) {
+          if (state.rarity.name === 'ULTRA BEAST') { singleW = 60; dualW = 40; }
+          else if (state.rarity.name === 'LEGENDARY' || state.rarity.name === 'MYTHICAL') { singleW = 55; dualW = 45; }
+          else if (state.rarity.name === 'PSEUDO-LEGENDARY') { singleW = 40; dualW = 60; }
+        }
         return [
-          { label: 'SINGLE', color: '#e0b820', weight: 50, value: 1 },
-          { label: 'DUAL',   color: '#c99400', weight: 50, value: 2 },
+          { label: 'SINGLE', color: '#68a090', weight: singleW, value: 1 },
+          { label: 'DUAL',   color: '#7b68a0', weight: dualW,   value: 2 },
         ];
+      }
 
-      case 'types':
-        // All 18 types equally likely, no rarity influence. Dual pulls happen in spinStep.
+      case 'type1':
         return TYPES.map(t => ({ label: t.name, color: t.color, weight: 1, value: t }));
+
+      case 'type2': {
+        // Mystery probability based on rarity
+        let mysteryWeight;
+        if (state.rarity?.mysteryBias) mysteryWeight = 45;
+        else if (state.rarity?.name === 'LEGENDARY' || state.rarity?.name === 'MYTHICAL') mysteryWeight = 18;
+        else mysteryWeight = 6;
+        const regular = TYPES
+          .filter(t => t.name !== state.type1?.name)
+          .map(t => ({ label: t.name, color: t.color, weight: 1, value: t, mystery: false }));
+        const mysteryEach = mysteryWeight / 3;
+        for (let i = 0; i < 3; i++) {
+          regular.push({ label: '? ? ?', color: '#2a1a4e', weight: mysteryEach, value: null, mystery: true });
+        }
+        return regular;
+      }
 
       case 'stage': {
         if (state.rarity?.forceFinal) return [{ label: 'STAGE 3', color: '#e8a838', weight: 1, value: 3 }];
         if (state.rarity?.maxStage === 1) return [{ label: 'STAGE 1', color: '#68a090', weight: 1, value: 1 }];
-        // Stage is not influenced by rarity (except fixed-stage rarities above).
         return [
-          { label: 'BASE',  color: '#68a090', weight: 33, value: 1 },
-          { label: 'MID',   color: '#7b68a0', weight: 34, value: 2 },
-          { label: 'FINAL', color: '#e8a838', weight: 33, value: 3 },
+          { label: 'BASE',  color: '#68a090', weight: 45, value: 1 },
+          { label: 'MID',   color: '#7b68a0', weight: 35, value: 2 },
+          { label: 'FINAL', color: '#e8a838', weight: 20, value: 3 },
         ];
       }
 
-      case 'perk':
-        return PERKS.map(p => ({ label: p.name, color: p.color, weight: p.weight, value: p }));
+      case 'perk': {
+        const rarityTier = RARITIES.indexOf(state.rarity);
+        const allowed = PERKS.filter(p => {
+          if (p.rarityMin != null && rarityTier < p.rarityMin) return false;
+          if (p.requireFinal && state.stage !== 3) return false;
+          return true;
+        }).map(p => {
+          let w = p.weight;
+          if (rarityTier >= 3 && /SIGNATURE|MEGA|GIGANTAMAX/.test(p.name)) w *= 3;
+          return { label: p.name, color: p.color, weight: w, value: p };
+        });
+        return allowed;
+      }
     }
     return [];
+  }
+
+  // ============================================================
+  // SLOT REEL (type2 only)
+  // ============================================================
+
+  function getReelItems() {
+    const filtered = TYPES.filter(t => t.name !== state.type1?.name);
+    const opts = filtered.map(t => ({ label: t.name, color: t.color }));
+    for (let i = 0; i < 3; i++) opts.push({ label: '? ? ?', mystery: true });
+    return opts;
+  }
+
+  function renderReelItem(item) {
+    const style = item.color
+      ? `background:${item.color}22; color:${item.color}; border-left: 3px solid ${item.color};`
+      : '';
+    const cls = item.mystery ? 'mystery' : '';
+    return `<div class="reel-item ${cls}" style="${style}">${item.label}</div>`;
+  }
+
+  function initReel(reelEl) {
+    const items = getReelItems();
+    const track = reelEl.querySelector('.reel-track');
+    let html = '';
+    for (let i = 0; i < 30; i++) html += renderReelItem(items[i % items.length]);
+    track.innerHTML = html;
+    track.style.transform = `translateY(-${56 * rand(0, items.length)}px)`;
+  }
+
+  function spinReel(reelEl, targetIndex) {
+    return new Promise(resolve => {
+      const track = reelEl.querySelector('.reel-track');
+      const items = getReelItems();
+      const itemLen = items.length;
+      let html = '';
+      const strips = 6;
+      for (let s = 0; s < strips; s++) {
+        for (let i = 0; i < itemLen; i++) html += renderReelItem(items[i]);
+      }
+      html += renderReelItem(items[targetIndex]);
+      track.innerHTML = html;
+      track.classList.remove('spinning');
+      track.style.transform = 'translateY(0px)';
+      void track.offsetHeight;
+      track.classList.add('spinning');
+      track.style.transform = `translateY(-${(strips * itemLen) * 56}px)`;
+      setTimeout(resolve, 2700);
+    });
+  }
+
+  function revealMysteryInReel(reelEl, mystery) {
+    const track = reelEl.querySelector('.reel-track');
+    const items = track.querySelectorAll('.reel-item');
+    const last = items[items.length - 1];
+    if (last) {
+      last.className = 'reel-item';
+      last.style.cssText = `background:${mystery.color}22; color:${mystery.color}; border-left: 3px solid ${mystery.color};`;
+      last.innerHTML = `<span>${mystery.name}<span style="font-size:12px; opacity:0.7; margin-left:6px;">★</span></span>`;
+      last.animate([
+        { filter: 'brightness(3)', transform: 'scale(1.15)' },
+        { filter: 'brightness(1)', transform: 'scale(1)' }
+      ], { duration: 800, easing: 'ease-out' });
+    }
   }
 
   // ============================================================
@@ -1898,47 +1528,38 @@
 
     const segments = getSegments(stepKey);
     let winnerIdx;
-    let precomputedPerkDetail = null;
+    if (segments.length === 1) winnerIdx = 0;
+    else winnerIdx = segments.indexOf(weightedPick(segments));
 
-    if (stepKey === 'perk') {
-      const result = await animateCardPick(segments);
-      winnerIdx = result.idx;
-      precomputedPerkDetail = result.perkDetail;
-    } else if (stepKey === 'types') {
-      // First pull — any type.
-      const winner1Idx = segments.indexOf(weightedPick(segments));
-      await animateClaw(segments, winner1Idx, 1);
-      state.type1 = segments[winner1Idx].value;
-      state.isMystery = false;
-      // Second pull if dual — exclude first type.
-      if (state.typeCount === 2) {
-        const pool2 = segments.filter(s => s.value.name !== state.type1.name);
-        const winner2Idx = pool2.indexOf(weightedPick(pool2));
-        await animateClaw(pool2, winner2Idx, 2);
-        state.type2 = pool2[winner2Idx].value;
-      } else {
-        state.type2 = null;
-      }
-      // Skip the winner-commit switch below.
-      winnerIdx = null;
-    } else {
-      if (segments.length === 1) winnerIdx = 0;
-      else winnerIdx = segments.indexOf(weightedPick(segments));
-
-      if (stepKey === 'rarity')         await animateCarnival(segments, winnerIdx);
-      else if (stepKey === 'typecount') await animateCoin(segments, winnerIdx);
-      else if (stepKey === 'stage')     await animateSlotMachine(segments, winnerIdx);
-    }
+    if (stepKey === 'rarity')         await animateCarnival(segments, winnerIdx);
+    else if (stepKey === 'typecount') await animateCoin(segments, winnerIdx);
+    else if (stepKey === 'type1')     await animateGacha(segments, winnerIdx);
+    else if (stepKey === 'type2')     await animateSlotReel(segments, winnerIdx);
+    else if (stepKey === 'stage')     await animateLever(segments, winnerIdx);
+    else if (stepKey === 'perk')      await animateCards(segments, winnerIdx);
 
     // Commit
-    const winner = winnerIdx != null ? segments[winnerIdx] : null;
+    const winner = segments[winnerIdx];
     switch (stepKey) {
       case 'rarity':    state.rarity = winner.value; break;
       case 'typecount': state.typeCount = winner.value; break;
+      case 'type1':     state.type1 = winner.value; break;
+      case 'type2':
+        if (winner.mystery) {
+          const mystery = pick(MYSTERY_TYPES);
+          state.type2 = mystery;
+          state.isMystery = true;
+          const reelEl = $('#current-reel');
+          if (reelEl) revealMysteryInReel(reelEl, mystery);
+        } else {
+          state.type2 = winner.value;
+          state.isMystery = false;
+        }
+        break;
       case 'stage':     state.stage = winner.value; break;
       case 'perk':
         state.perk = winner.value;
-        state.perkDetail = precomputedPerkDetail || generatePerkDetail(winner.value);
+        state.perkDetail = generatePerkDetail(winner.value);
         break;
     }
 
@@ -1963,78 +1584,17 @@
 
   function animateCarnival(segments, winnerIdx) {
     return new Promise(resolve => {
-      const wheelEl = document.querySelector('.casino-wheel-svg');
-      const pointerEl = document.getElementById('casino-pointer');
-      const leverEl = document.getElementById('casino-lever');
+      const wheelEl = $('.carnival-svg');
       if (!wheelEl) { setTimeout(resolve, 400); return; }
-
-      // Lever pull + spring back
-      if (leverEl) {
-        leverEl.classList.add('pulled');
-        setTimeout(() => leverEl.classList.remove('pulled'), 520);
-      }
-
       const totalWeight = segments.reduce((s, x) => s + (x.weight || 1), 0);
       let cumBefore = 0;
       for (let i = 0; i < winnerIdx; i++) cumBefore += segments[i].weight || 1;
-      const midFrac = (cumBefore + (segments[winnerIdx].weight || 1) / 2) / totalWeight;
-      const winnerAngleDeg = midFrac * 360;
-      // Keep pointer at top — bring winner mid to the top (angle 0 in our drawing).
-      const spins = 7 + Math.floor(Math.random() * 3);          // 7..9 full turns
-      const jitterDeg = (Math.random() - 0.5) * 6;              // small off-center jitter
-      const finalRot = spins * 360 - winnerAngleDeg + jitterDeg;
-
-      // Precompute boundary angles (0..360, clockwise from top)
-      const boundaries = [];
-      let cum = 0;
-      for (let i = 0; i < segments.length; i++) {
-        boundaries.push((cum / totalWeight) * 360);
-        cum += segments[i].weight || 1;
-      }
-
-      const duration = 5400;
-      const start = performance.now();
-      let lastKickIdx = -1;
-      let lastKickTime = 0;
-
-      // Cubic ease-out with small settle oscillation in last 8%
-      const ease = (t) => {
-        const base = 1 - Math.pow(1 - t, 3);
-        if (t > 0.92) {
-          const tb = (t - 0.92) / 0.08;
-          const bounce = Math.sin(tb * Math.PI * 3) * 0.006 * (1 - tb);
-          return base + bounce;
-        }
-        return base;
-      };
-
-      function tick(now) {
-        const elapsed = now - start;
-        const t = Math.min(1, elapsed / duration);
-        const rot = finalRot * ease(t);
-        wheelEl.style.transform = `rotate(${rot}deg)`;
-
-        // Peg-tick detection: which boundary is nearest the pointer (top)?
-        let nearestIdx = -1, nearestDist = 999;
-        for (let i = 0; i < boundaries.length; i++) {
-          const screen = (((boundaries[i] + rot) % 360) + 360) % 360;
-          const dist = Math.min(screen, 360 - screen);
-          if (dist < nearestDist) { nearestDist = dist; nearestIdx = i; }
-        }
-        // Kick the pointer when we pass a peg. Throttle to avoid flicker at low speed.
-        if (nearestDist < 4 && nearestIdx !== lastKickIdx && now - lastKickTime > 55) {
-          lastKickIdx = nearestIdx;
-          lastKickTime = now;
-          if (pointerEl) {
-            pointerEl.classList.add('kick');
-            setTimeout(() => pointerEl.classList.remove('kick'), 70);
-          }
-        }
-
-        if (t < 1) requestAnimationFrame(tick);
-        else setTimeout(resolve, 250);
-      }
-      requestAnimationFrame(tick);
+      const midOfWinner = cumBefore + (segments[winnerIdx].weight || 1) / 2;
+      const winnerAngleDeg = (midOfWinner / totalWeight) * 360;
+      const extra = (6 + Math.floor(Math.random() * 3)) * 360;
+      const finalRotation = extra - winnerAngleDeg + (Math.random() * 4 - 2);
+      wheelEl.style.transform = `rotate(${finalRotation}deg)`;
+      setTimeout(resolve, 4300);
     });
   }
 
@@ -2049,169 +1609,75 @@
     });
   }
 
-  // Claw machine: one claw pull that drops, grabs a ball, retracts, delivers to chute,
-  // and pops open to reveal the type. pullIdx is 1 or 2 (for dual-type).
-  function animateClaw(segments, winnerIdx, pullIdx) {
+  function animateGacha(segments, winnerIdx) {
     return new Promise(resolve => {
-      const arm = document.getElementById('claw-arm');
-      const grabbed = document.getElementById('claw-grabbed');
-      const status = document.getElementById('claw-status');
-      const ball = document.getElementById(`claw-reveal-${pullIdx}`);
-      const label = document.getElementById(`claw-label-${pullIdx}`);
-      if (!arm || !grabbed || !ball) { setTimeout(resolve, 400); return; }
-
-      const winnerType = segments[winnerIdx].value;
-      const wait = (ms) => new Promise(r => setTimeout(r, ms));
-
-      (async () => {
-        if (status) status.textContent = pullIdx === 1 ? 'The claw descends…' : 'Claw reloading for type 2…';
-
-        // 1) Move claw to random horizontal position.
-        const targetX = 18 + Math.random() * 64;
-        arm.style.left = targetX + '%';
-        arm.classList.remove('closing');
-        grabbed.classList.remove('visible');
-        await wait(850);
-
-        // 2) Descend (extend arm height).
-        arm.style.height = '200px';
-        await wait(1200);
-
-        // 3) Close fingers + ball materializes inside the grip.
-        arm.classList.add('closing');
-        grabbed.style.background = `radial-gradient(circle at 35% 30%, ${winnerType.color}, ${winnerType.color}cc 55%, ${winnerType.color}88 100%)`;
-        await wait(300);
-        grabbed.classList.add('visible');
-        await wait(250);
-
-        // 4) Retract up.
-        arm.style.height = '30px';
-        await wait(1200);
-
-        // 5) Slide to the chute on the right.
-        arm.style.left = '86%';
-        await wait(800);
-
-        // 6) Release — drop ball into the reveal slot.
-        arm.classList.remove('closing');
-        await wait(220);
-        grabbed.classList.remove('visible');
-
-        // 7) Reveal ball pops open, label appears.
-        ball.style.background = `radial-gradient(circle at 35% 30%, ${winnerType.color}, ${winnerType.color}cc 55%, ${winnerType.color}88 100%)`;
-        ball.classList.add('visible');
-        await wait(280);
-        ball.classList.add('popped');
-        if (label) {
-          label.textContent = winnerType.name;
-          label.style.color = winnerType.color;
-          label.style.background = `${winnerType.color}22`;
-          label.classList.add('visible');
-        }
-        if (status) status.textContent = pullIdx === 1
-          ? (state.typeCount === 2 ? '★ TYPE 1 SECURED — LOADING NEXT ★' : '★ TYPE SECURED ★')
-          : '★ TYPE 2 SECURED ★';
-        await wait(500);
-
-        // Reset claw position for next pull (if any).
-        if (pullIdx === 1 && state.typeCount === 2) {
-          arm.style.transition = 'none';
-          arm.style.left = '10%';
-          // Force reflow then restore transition.
-          void arm.offsetHeight;
-          arm.style.transition = '';
-          await wait(250);
-        }
-
-        resolve();
-      })();
+      const prize = $('#gacha-prize');
+      if (!prize) { setTimeout(resolve, 400); return; }
+      const winner = segments[winnerIdx];
+      prize.style.background = `radial-gradient(circle at 35% 30%, ${winner.color}, ${winner.color}cc 50%, ${winner.color}88)`;
+      prize.classList.remove('visible', 'rolling');
+      prize.textContent = '';
+      void prize.offsetHeight;
+      prize.classList.add('visible', 'rolling');
+      setTimeout(() => { prize.textContent = winner.label; }, 2300);
+      setTimeout(resolve, 2700);
     });
   }
 
-  // Slot machine: 3 reels spin and stop left-to-right. The number of Pokéballs
-  // landing on the pay line equals the stage (1/2/3). Winner is pre-determined.
-  function animateSlotMachine(segments, winnerIdx) {
+  function animateSlotReel(segments, winnerIdx) {
     return new Promise(resolve => {
-      const strips = [0,1,2].map(i => document.getElementById(`slot-strip-${i}`));
-      const status = document.getElementById('slot-status');
-      const tally = document.getElementById('slot-tally');
-      if (strips.some(s => !s)) { setTimeout(resolve, 400); return; }
-
-      const stage = segments[winnerIdx].value;
-      // Pick which reels show the Pokéball (exactly `stage` of them).
-      const reelsWithBall = [];
-      const pool = [0,1,2];
-      while (reelsWithBall.length < stage) {
-        const r = pool.splice(Math.floor(Math.random() * pool.length), 1)[0];
-        reelsWithBall.push(r);
+      const reelEl = $('#current-reel');
+      if (!reelEl) { setTimeout(resolve, 400); return; }
+      const reelItems = getReelItems();
+      let reelTargetIdx;
+      if (segments[winnerIdx].mystery) {
+        reelTargetIdx = reelItems.length - 1 - Math.floor(Math.random() * 3);
+      } else {
+        reelTargetIdx = reelItems.findIndex(it => it.label === segments[winnerIdx].value.name);
+        if (reelTargetIdx < 0) reelTargetIdx = 0;
       }
-      const finalSymbols = [0,1,2].map(i => reelsWithBall.includes(i));
-
-      // Build long strips with a bunch of random symbols and the target at index 20.
-      const stripLen = 28;
-      const cellH = 84;
-      const targetIdx = 20;
-      strips.forEach((strip, i) => {
-        let cells = '';
-        for (let k = 0; k < stripLen; k++) {
-          let isBall;
-          if (k === targetIdx) isBall = finalSymbols[i];
-          else isBall = Math.random() < 0.45;
-          cells += `<div class="slot-cell">${isBall ? SLOT_POKEBALL : SLOT_BLANK}</div>`;
-        }
-        strip.innerHTML = cells;
-        strip.classList.remove('spinning');
-        strip.style.transform = 'translateY(0px)';
-      });
-
-      // Force reflow so the next transition applies.
-      void strips[0].offsetHeight;
-
-      // Stopping Y for each strip: target cell centered on the pay line.
-      // Strip top = -(targetIdx * cellH - (reelHeight/2 - cellH/2)) = -(targetIdx * cellH)
-      // since reel height == cellH here, the target cell is at offset -targetIdx*cellH.
-      const stopY = -(targetIdx * cellH);
-
-      // Reels stop sequentially: 0 first, then 1, then 2.
-      const durations = [1.6, 2.3, 3.0];
-      strips.forEach((strip, i) => {
-        strip.style.setProperty('--slot-dur', durations[i] + 's');
-        strip.classList.add('spinning');
-        strip.style.transform = `translateY(${stopY}px)`;
-      });
-
-      if (status) status.textContent = 'The reels spin…';
-
-      // Announce each reel as it stops.
-      durations.forEach((d, i) => {
-        setTimeout(() => {
-          if (i < 2 && status) status.textContent = `Reel ${i+1} locked…`;
-          if (i === 2 && status) status.textContent = `★ ${stage} POKÉBALL${stage === 1 ? '' : 'S'} — STAGE ${stage} ★`;
-          if (i === 2 && tally) tally.textContent = `STAGE ${stage}`;
-        }, d * 1000 + 60);
-      });
-
-      setTimeout(resolve, durations[2] * 1000 + 500);
+      spinReel(reelEl, reelTargetIdx).then(resolve);
     });
   }
 
-  function animateCardPick(segments) {
+  function animateLever(segments, winnerIdx) {
     return new Promise(resolve => {
-      const cards = Array.from($$('#cards-area .card'));
-      if (!cards.length) { resolve({ idx: 0, perkDetail: null }); return; }
+      const handle = $('#lever-handle');
+      const stops = $$('#lever-stops .lever-stop');
+      const labels = $$('#lever-labels span');
+      if (!handle) { setTimeout(resolve, 400); return; }
+      const startTime = Date.now();
+      const jitter = setInterval(() => {
+        const pct = 10 + Math.random() * 80;
+        handle.style.transition = 'left 0.12s linear';
+        handle.style.left = pct + '%';
+      }, 120);
+      setTimeout(() => {
+        clearInterval(jitter);
+        const totalStops = segments.length;
+        let finalPct;
+        if (totalStops === 1) finalPct = 50;
+        else if (totalStops === 3) {
+          const stageValue = segments[winnerIdx].value;
+          finalPct = stageValue === 1 ? 12 : stageValue === 2 ? 50 : 88;
+        } else finalPct = 50;
+        handle.style.transition = 'left 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        handle.style.left = finalPct + '%';
+        stops.forEach((s, i) => s.classList.toggle('active', i === winnerIdx));
+        labels.forEach((l, i) => l.classList.toggle('active', i === winnerIdx));
+        setTimeout(resolve, 1300);
+      }, 1400);
+    });
+  }
+
+  function animateCards(segments, winnerIdx) {
+    return new Promise(resolve => {
+      const cards = $$('#cards-area .card');
+      if (!cards.length) { setTimeout(resolve, 400); return; }
       const nCards = cards.length;
-      let picked = false;
 
-      // The actual perk is pre-determined by weighted pick regardless of which
-      // card the user clicks — cards are purely visual (per design spec).
-      const winningPerk = pickPerkWinner();
-      const winnerIdx = segments.findIndex(s => s.value === winningPerk);
-
-      const spinBtn = $('#btn-spin-current');
-      if (spinBtn) spinBtn.textContent = '— PICK A CARD —';
-
-      // Phase 1: Shuffle
-      cards.forEach(c => {
+      // Phase 1: Quick shuffle — move cards randomly
+      cards.forEach((c) => {
         c.style.transition = 'transform 0.45s, left 0.45s, top 0.45s';
         c.style.left = `calc(50% + ${rand(-60, 60)}px)`;
         c.style.top = `calc(50% + ${rand(-30, 30)}px)`;
@@ -2229,46 +1695,17 @@
           c.style.transform = `translate(-50%, -50%) rotate(${(i - (nCards - 1) / 2) * 6}deg)`;
         });
 
-        // Phase 3: Any card reveals the weighted winner.
         setTimeout(() => {
-          cards.forEach((c, idx) => {
-            c.classList.add('card-pickable');
-            c.addEventListener('click', function handler() {
-              if (picked) return;
-              picked = true;
-              cards.forEach(cc => cc.classList.remove('card-pickable'));
-
-              const detail = generatePerkDetail(winningPerk);
-
-              // Flip picked card to reveal the actual (weighted) outcome.
-              const front = c.querySelector('.front');
-              if (front) {
-                front.innerHTML = `<div class="icon">${winningPerk.icon}</div>
-                  <div style="font-size:6px;">${escapeHtml(winningPerk.name)}</div>
-                  ${detail ? `<div class="card-detail-name">${escapeHtml(detail.name)}</div>` : ''}`;
-              }
-              c.classList.add('flipped');
-
-              cards.forEach((cc, ii) => {
-                if (ii !== idx) {
-                  cc.style.transition = 'opacity 0.5s';
-                  cc.style.opacity = '0.18';
-                }
-              });
-
-              const infoEl = document.getElementById('perk-pick-info');
-              if (infoEl && detail) {
-                infoEl.innerHTML = `<div class="perk-card perk-reveal-anim">
-                  <div class="perk-head">${winningPerk.icon} ${escapeHtml(winningPerk.name)}</div>
-                  <div class="perk-name">${escapeHtml(detail.name)}</div>
-                  <div class="perk-desc">${escapeHtml(detail.description)}</div>
-                </div>`;
-              }
-
-              setTimeout(() => resolve({ idx: winnerIdx, perkDetail: detail }), 900);
-            });
-          });
-        }, 900);
+          // Phase 3: Flip winner
+          const winnerCard = cards[winnerIdx];
+          if (winnerCard) {
+            const front = winnerCard.querySelector('.front');
+            const perk = segments[winnerIdx].value;
+            if (front) front.innerHTML = `<div class="icon">${perk.icon}</div><div>${escapeHtml(perk.name)}</div>`;
+            winnerCard.classList.add('flipped');
+          }
+          setTimeout(resolve, 1300);
+        }, 850);
       }, 500);
     });
   }
@@ -2279,12 +1716,11 @@
 
   function rollStats() {
     if (!state.rarity || !state.stage) return;
-    // BST range is chosen from real-Pokémon ranges per rarity × stage.
-    const stageKey = state.rarity.maxStage === 1 ? 1 : state.stage;
-    const range = state.rarity.bstByStage?.[stageKey] || state.rarity.bstByStage?.[state.rarity.maxStage] || [300, 500];
-    const [bstLo, bstHi] = range;
-    const perkBoost = state.perk && /MEGA|GIGANTAMAX/.test(state.perk.name) ? 1.06 : 1.0;
-    const targetTotal = Math.round((bstLo + Math.random() * (bstHi - bstLo)) * perkBoost);
+    const stageMult = state.stage === 1 ? 0.65 : state.stage === 2 ? 0.85 : 1.0;
+    const perkBoost = state.perk && /MEGA|GIGANTAMAX/.test(state.perk.name) ? 1.08 : 1.0;
+    // Target total — what the 6 stats should sum to
+    const targetTotal = ((state.rarity.statMin + state.rarity.statMax) / 2) * stageMult * perkBoost;
+    // Seed for the random walk — target avg per stat, with some noise
     const avgPerStat = targetTotal / 6;
     const seed = clamp(Math.round(avgPerStat + (Math.random() * 30 - 15)), 20, 255);
 
@@ -2432,79 +1868,44 @@
     return fillTemplate(tpl, FLAVOR_FILLERS, { name: state.name, typeAdj: types });
   }
 
-  // Perk details lean into design/environment: how the Pokémon looks, moves,
-  // where it lives, what the air feels like around it — rather than stat numbers.
-  const ENV_BY_TYPE = {
-    FIRE: 'scorched volcanic flats', WATER: 'deep tidal shelves', GRASS: 'old-growth canopy',
-    ELECTRIC: 'static-lashed ridgelines', ICE: 'endless glacier plateaus',
-    FIGHTING: 'mountain dojos carved from stone', POISON: 'humid sulphur bogs',
-    GROUND: 'sandstone badlands', FLYING: 'cliff-top thermals', PSYCHIC: 'moonlit standing stones',
-    BUG: 'sun-dappled undergrowth', ROCK: 'ancient quarries and rockfalls',
-    GHOST: 'fog-choked graveyards at dusk', DRAGON: 'storm-wreathed summits',
-    DARK: 'moonless backstreets and cave mouths', STEEL: 'abandoned foundries',
-    FAIRY: 'starlit meadows and fungus rings', NORMAL: 'open plains and sleepy towns',
-  };
-  const AURA_BY_TYPE = {
-    FIRE: 'the air shimmers with heat-haze', WATER: 'moisture beads on every nearby surface',
-    GRASS: 'a slow scent of petrichor hangs around it', ELECTRIC: 'hair stands on end within a few paces',
-    ICE: 'breath crystallises in its presence', FIGHTING: 'the ground seems to brace when it steps',
-    POISON: 'a faint chemical tang lingers', GROUND: 'small stones drift toward its feet',
-    FLYING: 'the wind changes direction around it', PSYCHIC: 'compasses drift off true',
-    BUG: 'a soft chitinous clicking accompanies it', ROCK: 'loose gravel rolls toward it',
-    GHOST: 'shadows deepen near it even in daylight', DRAGON: 'the horizon seems to hum',
-    DARK: 'nearby light sources dim a fraction', STEEL: 'metal objects resonate quietly',
-    FAIRY: 'motes of soft light pulse at its edges', NORMAL: 'everything just feels a little calmer',
-  };
-
   function generatePerkDetail(perk) {
     if (!perk) return null;
     const t1 = state.type1 || { name: 'NORMAL' };
     const t2 = state.type2;
-    const primary = t1.name;
-    const env = ENV_BY_TYPE[primary] || 'quiet, out-of-the-way places';
-    const aura = AURA_BY_TYPE[primary] || 'something about it feels off';
+    const primaryType = t1.name;
 
-    if (perk.kind === 'none') {
-      return {
-        name: 'No Special Perk',
-        description: `An ordinary member of its species. It lives in ${env} and keeps to itself. No hidden form, no signature move — just a Pokémon, being a Pokémon.`
-      };
-    }
     if (perk.kind === 'ability') {
       const abilityName = pick(ABILITY_ADJ) + ' ' + pick(ABILITY_NOUN);
+      const effect = ABILITY_EFFECTS[primaryType] || ABILITY_EFFECTS.NORMAL;
+      const hidden = perk.name === 'HIDDEN ABILITY';
       return {
         name: abilityName,
-        description: `A rare trait, visible in the way ${aura} when it is near. Other creatures of ${env} give it a wide berth without quite knowing why.`
+        description: `${hidden ? 'A rare hidden ability — ' : ''}${effect}`
       };
     }
     if (perk.kind === 'move') {
       const moveName = pick(MOVE_ADJ) + ' ' + pick(MOVE_NOUN);
+      const effect = pick(MOVE_EFFECTS);
       return {
         name: moveName,
-        description: `A signature move said to be used only by this Pokémon. When it charges the attack, ${aura} and the ground in ${env} briefly takes on a faint ${primary.toLowerCase()} hue.`
+        description: `A signature ${primaryType.toLowerCase()}-type move unique to this Pokémon — ${effect}`
       };
     }
     if (perk.kind === 'mega') {
       const megaName = 'Mega ' + (state.name || 'Form');
-      const accent = t2 ? ` Dark ${t2.name.toLowerCase()}-colored plating spreads across its back and shoulders, and` : '';
+      const accent = t2 ? `Gains ${t2.name.toLowerCase()}-type accents and ` : '';
       return {
         name: megaName,
-        description: `When exposed to its Mega Stone, its silhouette re-shapes: crests lengthen, limbs grow leaner, and a second set of markings burns through the outer coat.${accent} a new glow flickers in its eyes. The transformation lasts only as long as the battle.`
+        description: `When holding its Mega Stone, ${state.name || 'it'} transforms into ${megaName}. ${accent}its Attack and Special Attack surge dramatically, and its silhouette grows more imposing.`
       };
     }
     if (perk.kind === 'giga') {
       return {
         name: 'Gigantamax ' + (state.name || 'Form'),
-        description: `In its Gigantamax state it swells to the size of a small building, its outline warped by surging red energy. ${primary === 'NORMAL' ? 'Its coat' : primary.toLowerCase() + '-type patterns'} crackle across its skin, and the surrounding ${env.replace(/s$/, '')} takes on the same glow until the form subsides.`
+        description: `When it Dynamaxes, ${state.name || 'it'} takes on this colossal form instead. Its ${primaryType.toLowerCase()}-type moves become G-Max moves that blanket the entire battlefield with secondary effects.`
       };
     }
     return { name: perk.name, description: '—' };
-  }
-
-  // Weighted perk winner — pre-computed when the cards are dealt, so which card
-  // the user picks has no impact on the outcome (per design).
-  function pickPerkWinner() {
-    return weightedPick(PERKS);
   }
 
   function regenerateDerived() {
@@ -2520,16 +1921,6 @@
   // WIZARD RENDER
   // ============================================================
 
-  function getSpinLabel(stepKey) {
-    const labels = {
-      rarity: '▶ PULL THE LEVER', typecount: '▶ FLIP THE COIN',
-      types: '▶ DROP THE CLAW',
-      stage: '▶ STOP THE REELS',  perk: '▶ DEAL THE CARDS',
-      stats: '▶ ROLL THE STATS',
-    };
-    return labels[stepKey] || '▶ SPIN';
-  }
-
   function renderStep() {
     renderStepIndicator();
     renderSidebar();
@@ -2539,8 +1930,7 @@
 
     const step = STEPS[state.step];
     $('#step-title').textContent = step.label;
-    $('#step-sub').textContent = step.sub || '';
-    $('#step-sub').style.display = step.sub ? '' : 'none';
+    $('#step-sub').textContent = step.sub;
     const isLastStep = state.step === STEPS.length - 1;
     $('#btn-next').textContent = isLastStep ? '⚡ COMPLETE FORGE ⚡' : 'NEXT ►';
 
@@ -2553,26 +1943,25 @@
 
     const segments = getSegments(step.key);
     const alreadyDone = isStepComplete(state.step);
-    const spinLabel = alreadyDone ? '✓ LOCKED IN' : getSpinLabel(step.key);
     body.innerHTML = buildStepWidget(step.key, segments) + `
-      <button class="btn-spin-big" id="btn-spin-current" ${alreadyDone ? 'disabled' : ''}>${spinLabel}</button>
+      <button class="btn-spin-big" id="btn-spin-current">${alreadyDone ? '↻ RE-SPIN' : '▶ SPIN'}</button>
     `;
+
+    if (step.key === 'type2') {
+      const reelEl = $('#current-reel');
+      if (reelEl) initReel(reelEl);
+    }
 
     const spinBtn = $('#btn-spin-current');
     if (alreadyDone) {
-      spinBtn.style.background = 'var(--good)';
-      spinBtn.style.borderBottomColor = '#3a8a3a';
-      spinBtn.style.color = '#1a1d2e';
-    } else {
-      spinBtn.addEventListener('click', async () => { await spinStep(step.key); });
-      // The casino lever is an alternate trigger for the rarity spin.
-      if (step.key === 'rarity') {
-        const lever = $('#casino-lever');
-        if (lever) lever.addEventListener('click', async () => {
-          if (!state.spinning && !isStepComplete(state.step)) await spinStep('rarity');
-        });
-      }
+      spinBtn.style.background = 'var(--panel-2)';
+      spinBtn.style.color = 'var(--accent)';
+      spinBtn.style.borderBottomColor = 'var(--border)';
     }
+    spinBtn.addEventListener('click', async () => {
+      if (alreadyDone) clearFrom(step.key);
+      await spinStep(step.key);
+    });
 
     $('#btn-back').disabled = state.step === 0;
     $('#btn-next').disabled = !alreadyDone;
@@ -2581,46 +1970,86 @@
   function buildStepWidget(stepKey, segments) {
     switch (stepKey) {
       case 'rarity':
-        return `<div class="casino-wrap">
-          <div class="casino-wheel-wrap">
-            <div class="casino-pointer" id="casino-pointer"></div>
-            ${renderCasinoWheel(segments, 320)}
-            <div class="casino-hub">WHEEL<br>OF FATE</div>
-          </div>
-          <div class="casino-lever" id="casino-lever" role="button" aria-label="Pull the lever">
-            <div class="base"></div>
-            <div class="arm"><div class="knob"></div></div>
-            <div class="pivot"></div>
-            <div class="casino-lever-hint">PULL ▼</div>
-          </div>
+        return `<div class="carnival-wrap">
+          <div class="carnival-pointer"></div>
+          ${renderCarnivalWheel(segments, 320)}
+          <div class="carnival-hub">SPIN</div>
         </div>
         ${renderWheelLegend(segments)}`;
 
       case 'typecount':
         return `<div class="coin-wrap">
           <div class="coin" id="coin-element">
-            <div class="coin-face heads">${renderPokeballCoin(1)}</div>
-            <div class="coin-face tails">${renderPokeballCoin(2)}</div>
+            <div class="coin-face heads">
+              <div class="icon">●</div>
+              <div class="big">SINGLE</div>
+              <div class="small">1 TYPE</div>
+            </div>
+            <div class="coin-face tails">
+              <div class="icon">◉</div>
+              <div class="big">DUAL</div>
+              <div class="small">2 TYPES</div>
+            </div>
           </div>
+        </div>
+        <div style="font-family:'VT323', monospace; font-size:14px; color:var(--ink-dim); text-align:center;">
+          ${Math.round(segments[0].weight)}% single · ${Math.round(segments[1].weight)}% dual
         </div>`;
 
-      case 'types':
-        return renderClawMachine();
+      case 'type1': {
+        const colors = [pick(TYPES).color, pick(TYPES).color, pick(TYPES).color, pick(TYPES).color, pick(TYPES).color];
+        return `<div class="gacha-wrap">
+          <div class="gacha-machine">
+            <div class="gacha-glass">
+              <div class="gacha-ball-mini" style="background:${colors[0]}; top:20%; left:12%; animation-delay:0s;"></div>
+              <div class="gacha-ball-mini" style="background:${colors[1]}; top:40%; left:60%; animation-delay:0.7s;"></div>
+              <div class="gacha-ball-mini" style="background:${colors[2]}; top:65%; left:25%; animation-delay:1.4s;"></div>
+              <div class="gacha-ball-mini" style="background:${colors[3]}; top:28%; left:70%; animation-delay:2.1s;"></div>
+              <div class="gacha-ball-mini" style="background:${colors[4]}; top:55%; left:50%; animation-delay:0.4s;"></div>
+            </div>
+            <div class="gacha-slot"></div>
+            <div class="gacha-knob"></div>
+          </div>
+          <div class="gacha-prize" id="gacha-prize"></div>
+        </div>`;
+      }
 
-      case 'stage':
-        return renderSlotMachine();
+      case 'type2': {
+        const mysteryHint = (state.rarity?.mysteryBias || state.rarity?.name === 'LEGENDARY' || state.rarity?.name === 'MYTHICAL')
+          ? `<div style="font-family:'VT323', monospace; font-size:14px; color:var(--accent); text-align:center; letter-spacing:2px;">★ mystery type likely ★</div>`
+          : `<div style="font-family:'VT323', monospace; font-size:13px; color:var(--ink-dim); text-align:center;">small chance of mystery type</div>`;
+        return `<div style="display:flex; flex-direction:column; align-items:center; gap:14px; width:100%;">
+          <div style="font-family:'Press Start 2P', monospace; font-size:9px; color:var(--ink-dim); letter-spacing:2px;">PULL THE HANDLE</div>
+          <div class="reel" id="current-reel"><div class="reel-track"></div><div class="reel-indicator"></div></div>
+          ${mysteryHint}
+        </div>`;
+      }
+
+      case 'stage': {
+        const nStops = segments.length;
+        const stopsHtml = Array.from({length: nStops}, (_, i) => `<div class="lever-stop" data-idx="${i}"></div>`).join('');
+        const labelsHtml = segments.map((s, i) => `<span data-idx="${i}">${escapeHtml(s.label)}</span>`).join('');
+        const note = nStops === 1 ? `<div class="lever-disabled-note">Rarity locks you to a single stage.</div>` : '';
+        return `<div class="lever-wrap">
+          <div class="lever-track">
+            <div class="lever-stops" id="lever-stops">${stopsHtml}</div>
+            <div class="lever-handle" id="lever-handle"></div>
+          </div>
+          <div class="lever-labels" id="lever-labels">${labelsHtml}</div>
+          ${note}
+        </div>`;
+      }
 
       case 'perk': {
-        const cardsHtml = segments.map((s) =>
+        const cardsHtml = segments.map((s, i) =>
           `<div class="card">
             <div class="face back">?</div>
             <div class="face front"><div class="icon">${s.value.icon}</div><div>${escapeHtml(s.value.name)}</div></div>
           </div>`
         ).join('');
         return `<div class="cards-wrap" id="cards-area">${cardsHtml}</div>
-        <div id="perk-pick-info" style="width:100%; max-width:360px;"></div>
         <div style="font-family:'VT323', monospace; font-size:14px; color:var(--ink-dim); text-align:center;">
-          ${segments.length} perk${segments.length !== 1 ? 's' : ''} · deal cards then pick one
+          ${segments.length} card${segments.length !== 1 ? 's' : ''} in the deck · weighted
         </div>`;
       }
     }
@@ -2650,13 +2079,14 @@
   }
 
   function clearFrom(stepKey) {
-    const keys = ['rarity','typecount','types','stage','perk','stats'];
+    const keys = ['rarity','typecount','type1','type2','stage','perk','stats'];
     const idx = keys.indexOf(stepKey);
     for (let i = idx; i < keys.length; i++) {
       switch (keys[i]) {
         case 'rarity':    state.rarity = null; break;
         case 'typecount': state.typeCount = null; break;
-        case 'types':     state.type1 = null; state.type2 = null; state.isMystery = false; break;
+        case 'type1':     state.type1 = null; break;
+        case 'type2':     state.type2 = null; state.isMystery = false; break;
         case 'stage':     state.stage = null; break;
         case 'perk':      state.perk = null; state.perkDetail = null; break;
         case 'stats':     STAT_NAMES.forEach(s => state.stats[s] = null); break;
@@ -2685,7 +2115,6 @@
       $('#rarity-banner-wrap').innerHTML = `<div class="rarity-banner" style="background:${state.rarity.color};">${state.rarity.name}</div>`;
     }
     const frame = $('#art-frame');
-    const formFrame = $('#art-frame-form');
     if (state.aiArtData) {
       if (state.aiArtData.startsWith('inline:')) frame.innerHTML = state.aiArtData.slice(7);
       else frame.innerHTML = `<img src="${state.aiArtData}" alt="${escapeHtml(state.name || '')}">`;
@@ -2695,21 +2124,8 @@
       frame.innerHTML = `<div class="art-empty" style="color:var(--accent);">
         <div style="font-size:32px; margin-bottom:8px;">✨</div>
         READY TO FORGE<br>
-        <span style="font-size:14px; opacity:0.7;">Tap Generate Art</span>
+        <span style="font-size:14px; opacity:0.7;">Generate AI or Procedural</span>
       </div>`;
-    }
-    // Second render (Mega / Gigantamax) — shown only if available.
-    if (state.aiArtFormData && state.aiArtFormKind) {
-      const label = state.aiArtFormKind === 'mega' ? 'MEGA' : 'GIGANTAMAX';
-      const body = state.aiArtFormData.startsWith('inline:')
-        ? state.aiArtFormData.slice(7)
-        : `<img src="${state.aiArtFormData}" alt="${escapeHtml(state.name + ' ' + label)}">`;
-      formFrame.innerHTML = `<div class="art-form-label">${label}</div>${body}`;
-      formFrame.classList.remove('hidden');
-      frame.classList.add('has-form');
-    } else {
-      formFrame.classList.add('hidden');
-      frame.classList.remove('has-form');
     }
     $('#poke-name').textContent = state.name || '???';
     $('#poke-species').textContent = state.species || '—';
@@ -2916,7 +2332,7 @@
 
   const AI_CONFIG_KEY = 'ai-config';
   const POLLINATIONS_BASE = 'https://image.pollinations.ai/prompt/';
-  const DEFAULT_ANTHROPIC_MODEL = 'claude-opus-4-7';
+  const DEFAULT_ANTHROPIC_MODEL = 'claude-haiku-4-5-20251001';
   const DEFAULT_PROXY = 'http://localhost:3000/v1/messages';
 
   async function loadAiConfig() {
@@ -2954,52 +2370,50 @@
   // Prompts
   // ------------------------------------------------------------
 
-  /**
-   * Pollinations prompt — tuned for official Ken Sugimori watercolor art.
-   * formKind: 'normal' (default) | 'mega' | 'giga'
-   */
-  function buildPollinationsPrompt(formKind = 'normal') {
+  /** For Pollinations — a descriptive natural-language prompt. */
+  function buildPollinationsPrompt() {
     const typeStr = state.type2
       ? `${state.type1.name.toLowerCase()} and ${state.type2.name.toLowerCase()} dual-type`
       : `${state.type1.name.toLowerCase()}-type`;
     const stageDesc = state.stage === 1
-      ? 'small base-form creature, round cute proportions'
+      ? 'baby form, small and cute, round proportions'
       : state.stage === 2
-      ? 'mid-evolution creature, more defined features'
-      : 'fully evolved final form, imposing silhouette';
-    const rarityDesc =
-        state.rarity.name === 'LEGENDARY'       ? 'rare legendary creature with faint aura'
-      : state.rarity.name === 'MYTHICAL'        ? 'mythical creature, delicate and otherworldly'
-      : state.rarity.name === 'ULTRA BEAST'     ? 'alien ultra beast with unnatural geometry'
-      : state.rarity.name === 'PSEUDO-LEGENDARY'? 'powerful draconic pseudo-legendary'
-      : 'ordinary-looking pokémon';
+      ? 'teen form, mid-evolution, more defined features'
+      : 'fully evolved final form, imposing and majestic';
+    const rarityDesc = state.rarity.name === 'LEGENDARY'
+      ? 'legendary creature with glowing aura and cosmic accents'
+      : state.rarity.name === 'MYTHICAL'
+      ? 'mythical creature, small but radiating power'
+      : state.rarity.name === 'ULTRA BEAST'
+      ? 'alien ultra beast with crystalline or impossibly geometric body parts'
+      : state.rarity.name === 'PSEUDO-LEGENDARY'
+      ? 'powerful draconic pseudo-legendary'
+      : state.rarity.name === 'SUB-LEGENDARY'
+      ? 'sub-legendary creature with mysterious aura'
+      : 'original creature';
 
-    // Form transformation cue — only for the optional second render.
-    let formCue = '';
-    if (formKind === 'mega') formCue = ', depicted in its Mega-Evolution form with dramatic new crests, lengthened limbs and secondary markings spreading across the body';
-    else if (formKind === 'giga') formCue = ', depicted in its colossal Gigantamax form, swollen to building size with surging red energy patterns across its body';
+    let perkCue = '';
+    if (state.perk?.kind === 'mega') perkCue = ', mega evolution form with dramatic crests and flame jets';
+    else if (state.perk?.kind === 'giga') perkCue = ', gigantamax form with glowing red energy patterns';
 
-    // Palette hints — readable color names work better than hex.
+    // Palette hints — color names are more reliable than hex codes for diffusion models
     const typeToColor = {
-      FIRE:'warm red and orange', WATER:'soft blue and cyan', GRASS:'fresh green and cream',
-      ELECTRIC:'bright yellow with black accents', ICE:'pale blue and white', FIGHTING:'brown and muted red',
-      POISON:'purple and violet', GROUND:'tan and sandy brown', FLYING:'light blue and cream',
-      PSYCHIC:'pink and lavender', BUG:'lime green and yellow', ROCK:'grey and warm tan',
-      GHOST:'deep purple and black', DRAGON:'slate blue and indigo',
-      DARK:'black and dark grey', STEEL:'silver and soft grey', FAIRY:'pastel pink and cream',
-      NORMAL:'beige, cream and warm brown',
+      FIRE:'red and orange', WATER:'blue and cyan', GRASS:'green',
+      ELECTRIC:'yellow', ICE:'pale blue and white', FIGHTING:'brown and red',
+      POISON:'purple', GROUND:'tan and brown', FLYING:'light blue and white',
+      PSYCHIC:'pink and magenta', BUG:'lime green', ROCK:'grey and tan',
+      GHOST:'dark purple and black', DRAGON:'deep blue and purple',
+      DARK:'black and grey', STEEL:'silver and grey', FAIRY:'pink and pastel',
+      NORMAL:'beige and brown',
+      COSMIC:'deep violet and starry', PLASMA:'hot pink and white',
+      SOUND:'teal and aqua', CRYSTAL:'iridescent white', MIRAGE:'shifting gold',
+      VOID:'black and dark purple', AETHER:'pale lavender and gold',
+      MAGMA:'deep red and orange', GRAVITY:'dark navy', TIME:'gold and bronze',
     };
     const colorHint = [state.type1, state.type2].filter(Boolean)
-      .map(t => typeToColor[t.name] || t.name.toLowerCase()).join(' with ');
+      .map(t => typeToColor[t.name] || t.name.toLowerCase()).join(' and ');
 
-    // Sugimori-style visual cues — watercolor, soft outline, pastel, three-quarter pose.
-    return `official Pokémon artwork by Ken Sugimori, traditional watercolor and ink illustration, ` +
-           `single full-body creature centered in frame, three-quarter angled pose, ` +
-           `${stageDesc}, ${typeStr}, ${rarityDesc}${formCue}, ${colorHint} color palette, ` +
-           `soft pastel coloring with gentle watercolor washes, subtle sketchy ink outlines, clean cel shading, ` +
-           `expressive friendly eyes, anime-inspired monster design, Game Freak official concept art, ` +
-           `clean pure white background, no text, no watermark, no logo, no border, no signature, ` +
-           `high detail, professional nintendo pokedex artwork`;
+    return `pixel art creature sprite, pokemon style, ${stageDesc}, ${typeStr}, ${rarityDesc}${perkCue}, ${colorHint} color palette, Game Freak anime style, bold clean outlines, flat shaded colors, centered character, white background, full body shot, 16-bit`;
   }
 
   /** For Anthropic — asks the model to output raw SVG. */
@@ -3045,8 +2459,8 @@ COLORS:
   // ------------------------------------------------------------
 
   /** Pollinations — just build a URL and use it. No JSON, no auth. */
-  async function tryPollinations(cfg, log, formKind = 'normal') {
-    const prompt = buildPollinationsPrompt(formKind);
+  async function tryPollinations(cfg, log) {
+    const prompt = buildPollinationsPrompt();
     log('pollinations prompt', prompt);
 
     const seed = cfg.pollinationsSeed || Math.floor(Math.random() * 1_000_000);
@@ -3185,16 +2599,14 @@ COLORS:
 
   async function generateAiArt() {
     if (!state.type1) return;
-    if (state.aiArtData) return; // Art already generated — locked for this forge
-
     const btn = $('#btn-generate-art');
     btn.disabled = true;
-    btn.textContent = '🎨 FORGING...';
+    btn.textContent = '🎨 GENERATING...';
     const frame = $('#art-frame');
     frame.innerHTML = `<div class="art-loading">
       <div style="font-size:32px;">⚙</div>
       <div>FORGING SPRITE...</div>
-      <div style="font-size:12px; opacity:0.6;">10–25 seconds</div>
+      <div style="font-size:12px; opacity:0.6;">5–20 seconds</div>
     </div>`;
 
     const debugLog = [];
@@ -3204,61 +2616,145 @@ COLORS:
       if (window.console) console.log('[PokeForge AI]', step, detail || '');
     };
     log('environment', diagnoseEnvironment());
-    const cfg = await loadAiConfig();
 
-    // Primary (normal) form generation.
+    const cfg = await loadAiConfig();
+    log('config', `backend=${cfg.backend}`);
+
     try {
-      const result = await tryPollinations(cfg, log, 'normal');
-      state.aiArtData = result.kind === 'svg' ? 'inline:' + result.data : result.data;
+      let result;
+      switch (cfg.backend) {
+        case 'anthropic-direct':   result = await tryAnthropicDirect(cfg, log); break;
+        case 'anthropic-proxy':    result = await tryAnthropicProxy(cfg, log); break;
+        case 'anthropic-claudeai': result = await tryAnthropicClaudeAi(cfg, log); break;
+        case 'pollinations':
+        default:                   result = await tryPollinations(cfg, log); break;
+      }
+
+      // Normalize into state.aiArtData
+      if (result.kind === 'image') state.aiArtData = result.data; // data URL
+      else if (result.kind === 'svg') state.aiArtData = 'inline:' + result.data;
+      else throw new Error(`Unknown result kind: ${result.kind}`);
+
       state.lastAiError = null;
       renderFinalView();
       toast('✓ AI ART FORGED');
-      btn.textContent = '✓ ART LOCKED';
     } catch (e) {
-      log('PRIMARY FAILED', `${e.name || 'Error'}: ${e.message || String(e)}`);
+      log('FAILED', `${e.name || 'Error'}: ${e.message || String(e)}`);
       if (window.console) console.error('[PokeForge AI] Full log:', debugLog);
-      // Silent fallback to procedural art so the user always gets something.
-      try {
-        applyProceduralArt();
-        toast('AI unavailable — using procedural art');
-      } catch (e2) {
-        state.lastAiError = {
-          step: 'pollinations',
-          full: debugLog.join('\n\n') + '\n\nStack:\n' + (e.stack || '(no stack)'),
-        };
-        renderAiError(frame, state.lastAiError);
-      }
+      const errorLog = {
+        step: `backend: ${cfg.backend}`,
+        full: debugLog.join('\n\n') + '\n\nStack:\n' + (e.stack || '(no stack)'),
+      };
+      state.lastAiError = errorLog;
+      renderAiError(frame, errorLog);
+      toast('AI ART FAILED — open AI SETTINGS or try Procedural');
+    } finally {
       btn.disabled = false;
-      btn.textContent = '🎨 RETRY ART';
-      return;
+      btn.textContent = '🎨 GENERATE AI ART';
     }
+  }
 
-    // Mega / Gigantamax — fire a second render for the transformed form after the
-    // anonymous-tier rate-limit window clears. Runs in the background; the normal
-    // form stays visible meanwhile.
-    const formKind = state.perk?.kind === 'mega' ? 'mega'
-                   : state.perk?.kind === 'giga' ? 'giga' : null;
-    if (formKind) {
-      const label = formKind === 'mega' ? 'MEGA' : 'GIGANTAMAX';
-      btn.disabled = true;
-      btn.textContent = `⏳ ${label} IN 16s…`;
-      // Wait out the anonymous Pollinations cooldown.
-      await new Promise(r => setTimeout(r, 16000));
-      btn.textContent = `🎨 FORGING ${label}…`;
-      try {
-        const formResult = await tryPollinations(cfg, log, formKind);
-        state.aiArtFormData = formResult.kind === 'svg' ? 'inline:' + formResult.data : formResult.data;
-        state.aiArtFormKind = formKind;
-        renderFinalView();
-        toast(`✓ ${label} FORM FORGED`);
-        btn.textContent = '✓ ART LOCKED';
-      } catch (e) {
-        log('FORM FAILED', `${e.name || 'Error'}: ${e.message || String(e)}`);
-        toast(`${label} FORM FAILED — normal form kept`);
-        btn.disabled = false;
-        btn.textContent = `🎨 RETRY ${label} FORM`;
-      }
-    }
+  // ============================================================
+  // AI SETTINGS MODAL
+  // ============================================================
+
+  async function showAiSettings() {
+    const cfg = await loadAiConfig();
+    const maskedKey = cfg.anthropicApiKey ? ('…' + cfg.anthropicApiKey.slice(-8)) : '(none set)';
+
+    $('#modal-content').innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h3 style="font-family:'Press Start 2P', monospace; font-size:12px; color:var(--accent); margin:0; letter-spacing:2px;">⚙ AI SETTINGS</h3>
+        <button class="btn secondary" id="ai-settings-close" style="padding:5px 8px;">✕</button>
+      </div>
+
+      <div style="font-family:'VT323', monospace; font-size:15px; color:var(--ink-dim); line-height:1.4; margin-bottom:14px;">
+        Pick a backend. <b style="color:var(--good);">POLLINATIONS is free, no key, no signup</b> — recommended for this toy.
+      </div>
+
+      <div style="font-family:'Press Start 2P', monospace; font-size:8px; color:var(--accent); letter-spacing:1px; margin-bottom:6px;">BACKEND</div>
+      <select id="ai-backend" style="width:100%; padding:8px; background:#0f1220; color:var(--ink); border:2px solid var(--border); border-radius:3px; font-family:'VT323', monospace; font-size:15px; margin-bottom:14px;">
+        <option value="pollinations"${cfg.backend === 'pollinations' ? ' selected' : ''}>★ POLLINATIONS — free, no key (default)</option>
+        <option value="anthropic-direct"${cfg.backend === 'anthropic-direct' ? ' selected' : ''}>ANTHROPIC direct — needs paid API key</option>
+        <option value="anthropic-proxy"${cfg.backend === 'anthropic-proxy' ? ' selected' : ''}>ANTHROPIC via local proxy</option>
+        <option value="anthropic-claudeai"${cfg.backend === 'anthropic-claudeai' ? ' selected' : ''}>ANTHROPIC via claude.ai preview</option>
+      </select>
+
+      <div id="pollinations-section">
+        <div style="font-family:'Press Start 2P', monospace; font-size:8px; color:var(--accent); letter-spacing:1px; margin-bottom:6px;">POLLINATIONS — MODEL</div>
+        <select id="pol-model" style="width:100%; padding:8px; background:#0f1220; color:var(--ink); border:2px solid var(--border); border-radius:3px; font-family:'VT323', monospace; font-size:15px; margin-bottom:10px;">
+          <option value="flux"${cfg.pollinationsModel === 'flux' ? ' selected' : ''}>flux — balanced quality (default)</option>
+          <option value="turbo"${cfg.pollinationsModel === 'turbo' ? ' selected' : ''}>turbo — faster, lower quality</option>
+          <option value="flux-realism"${cfg.pollinationsModel === 'flux-realism' ? ' selected' : ''}>flux-realism — photorealistic</option>
+        </select>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
+          <div>
+            <div style="font-family:'Press Start 2P', monospace; font-size:8px; color:var(--accent); letter-spacing:1px; margin-bottom:6px;">SIZE</div>
+            <select id="pol-size" style="width:100%; padding:8px; background:#0f1220; color:var(--ink); border:2px solid var(--border); border-radius:3px; font-family:'VT323', monospace; font-size:15px;">
+              <option value="512"${cfg.pollinationsSize === 512 ? ' selected' : ''}>512×512 (fast)</option>
+              <option value="768"${cfg.pollinationsSize === 768 ? ' selected' : ''}>768×768</option>
+              <option value="1024"${cfg.pollinationsSize === 1024 ? ' selected' : ''}>1024×1024 (slow)</option>
+            </select>
+          </div>
+          <div>
+            <div style="font-family:'Press Start 2P', monospace; font-size:8px; color:var(--accent); letter-spacing:1px; margin-bottom:6px;">SEED</div>
+            <input type="text" id="pol-seed" placeholder="(random)" value="${escapeHtml(cfg.pollinationsSeed || '')}" style="width:100%; padding:8px; background:#0f1220; color:var(--ink); border:2px solid var(--border); border-radius:3px; font-family:'Space Mono', monospace; font-size:12px;">
+          </div>
+        </div>
+        <div style="font-family:'VT323', monospace; font-size:12px; color:var(--ink-dim); margin-bottom:14px; line-height:1.3;">
+          Anonymous tier: 1 request / 15 seconds.<br>
+          Same seed + same prompt = same image (good for re-generating after tweaks).
+        </div>
+      </div>
+
+      <div id="anthropic-section" style="border-top:1px dashed rgba(255,203,5,0.3); padding-top:12px;">
+        <div style="font-family:'Press Start 2P', monospace; font-size:9px; color:var(--accent); letter-spacing:1px; margin-bottom:10px;">ANTHROPIC (optional, paid)</div>
+
+        <div style="font-family:'Press Start 2P', monospace; font-size:8px; color:var(--ink-dim); letter-spacing:1px; margin-bottom:6px;">API KEY</div>
+        <div style="font-family:'VT323', monospace; font-size:13px; color:var(--ink-dim); margin-bottom:6px;">
+          Current: <span style="color:var(--ink);">${escapeHtml(maskedKey)}</span>. Stored in browser only.
+        </div>
+        <input type="password" id="ant-apikey" placeholder="sk-ant-api03-..." style="width:100%; padding:8px; background:#0f1220; color:var(--ink); border:2px solid var(--border); border-radius:3px; font-family:'Space Mono', monospace; font-size:12px; margin-bottom:10px;">
+
+        <div style="font-family:'Press Start 2P', monospace; font-size:8px; color:var(--ink-dim); letter-spacing:1px; margin-bottom:6px;">PROXY URL</div>
+        <input type="text" id="ant-proxyurl" value="${escapeHtml(cfg.anthropicProxyUrl || DEFAULT_PROXY)}" style="width:100%; padding:8px; background:#0f1220; color:var(--ink); border:2px solid var(--border); border-radius:3px; font-family:'Space Mono', monospace; font-size:12px; margin-bottom:10px;">
+
+        <div style="font-family:'Press Start 2P', monospace; font-size:8px; color:var(--ink-dim); letter-spacing:1px; margin-bottom:6px;">MODEL</div>
+        <input type="text" id="ant-model" value="${escapeHtml(cfg.anthropicModel || DEFAULT_ANTHROPIC_MODEL)}" style="width:100%; padding:8px; background:#0f1220; color:var(--ink); border:2px solid var(--border); border-radius:3px; font-family:'Space Mono', monospace; font-size:12px; margin-bottom:10px;">
+      </div>
+
+      <div style="display:flex; gap:8px; margin-top:8px;">
+        <button class="btn" id="ai-settings-save" style="flex:1;">💾 SAVE</button>
+        <button class="btn secondary" id="ai-settings-clear">CLEAR KEY</button>
+      </div>
+
+      <div style="margin-top:14px; font-family:'VT323', monospace; font-size:13px; color:var(--ink-dim); line-height:1.4; border-top:1px dashed rgba(255,203,5,0.3); padding-top:10px;">
+        See <code style="color:var(--accent);">AI_ART_DEBUG.md</code> for full explanations of each backend.
+      </div>
+    `;
+    $('#modal').classList.add('show');
+    $('#ai-settings-close').addEventListener('click', () => $('#modal').classList.remove('show'));
+    $('#ai-settings-save').addEventListener('click', async () => {
+      const newCfg = {
+        backend: $('#ai-backend').value,
+        pollinationsModel: $('#pol-model').value,
+        pollinationsSize: parseInt($('#pol-size').value, 10) || 512,
+        pollinationsSeed: $('#pol-seed').value.trim(),
+        anthropicApiKey: $('#ant-apikey').value.trim() || cfg.anthropicApiKey || '',
+        anthropicProxyUrl: $('#ant-proxyurl').value.trim() || DEFAULT_PROXY,
+        anthropicModel: $('#ant-model').value.trim() || DEFAULT_ANTHROPIC_MODEL,
+      };
+      await saveAiConfig(newCfg);
+      $('#modal').classList.remove('show');
+      toast('✓ AI SETTINGS SAVED');
+    });
+    $('#ai-settings-clear').addEventListener('click', async () => {
+      if (!confirm('Clear stored Anthropic API key?')) return;
+      await saveAiConfig({ ...cfg, anthropicApiKey: '' });
+      $('#modal').classList.remove('show');
+      toast('API KEY CLEARED');
+    });
   }
 
     // ============================================================
@@ -3288,8 +2784,6 @@ COLORS:
         stats: { ...state.stats },
         flavor: state.flavor,
         aiArtData: state.aiArtData,
-        aiArtFormData: state.aiArtFormData,
-        aiArtFormKind: state.aiArtFormKind,
         savedAt: Date.now(),
       };
       all.push(entry);
@@ -3368,14 +2862,6 @@ COLORS:
     if (!m.aiArtData) art = `<div class="art-empty" style="padding:40px; font-size:14px;">NO ART GENERATED</div>`;
     else if (m.aiArtData.startsWith('inline:')) art = m.aiArtData.slice(7);
     else art = `<img src="${m.aiArtData}" alt="${escapeHtml(m.name)}">`;
-    let formArt = '';
-    if (m.aiArtFormData && m.aiArtFormKind) {
-      const label = m.aiArtFormKind === 'mega' ? 'MEGA' : 'GIGANTAMAX';
-      const inner = m.aiArtFormData.startsWith('inline:')
-        ? m.aiArtFormData.slice(7)
-        : `<img src="${m.aiArtFormData}" alt="${escapeHtml(m.name + ' ' + label)}">`;
-      formArt = `<div class="art-frame-form" style="margin-bottom:12px;"><div class="art-form-label">${label}</div>${inner}</div>`;
-    }
     const total = Object.values(m.stats).reduce((a,b) => a + b, 0);
     const statsHtml = STAT_NAMES.map(s => {
       const v = m.stats[s];
@@ -3397,7 +2883,6 @@ COLORS:
         <button class="btn secondary" id="modal-close" style="padding:5px 8px;">✕</button>
       </div>
       <div class="dex-card-art" style="margin-bottom:12px;">${art}</div>
-      ${formArt}
       <div class="rarity-banner" style="background:${m.rarityColor}; margin-bottom:8px;">${m.rarity}</div>
       <h2 class="poke-name">${escapeHtml(m.name)}</h2>
       <div class="poke-species" style="margin-bottom:10px;">${escapeHtml(m.species)}</div>
@@ -3439,8 +2924,6 @@ COLORS:
       stats: { HP:null, ATK:null, DEF:null, SPA:null, SPD:null, SPE:null },
       name: null, species: null, flavor: null,
       aiArtData: null,
-      aiArtFormData: null,
-      aiArtFormKind: null,
       isMystery: false,
       dexNum: null,
       step: 0,
@@ -3452,13 +2935,6 @@ COLORS:
     renderStep();
   }
 
-  function enterForge() {
-    $('#intro-view').classList.add('hidden');
-    $('#wizard-view').classList.remove('hidden');
-    state.step = 0;
-    renderStep();
-  }
-
   function init() {
     $$('.pf-tab').forEach(t => t.addEventListener('click', () => {
       $$('.pf-tab').forEach(x => x.classList.remove('active'));
@@ -3467,7 +2943,6 @@ COLORS:
       $(`#page-${t.dataset.tab}`).classList.add('active');
       if (t.dataset.tab === 'dex') renderDex();
     }));
-    $('#btn-enter-forge').addEventListener('click', enterForge);
     $('#btn-back').addEventListener('click', () => {
       if (state.spinning) return;
       state.step = Math.max(0, state.step - 1);
@@ -3484,11 +2959,11 @@ COLORS:
       if (confirm('Reset all forge progress?')) resetAll();
     });
     $('#btn-generate-art').addEventListener('click', generateAiArt);
+    $('#btn-procedural-art').addEventListener('click', applyProceduralArt);
+    $('#btn-ai-settings').addEventListener('click', showAiSettings);
     $('#btn-save-dex').addEventListener('click', saveToDex);
-    $('#btn-forge-another').addEventListener('click', () => {
-      if (confirm('Forge a new Pokémon? Current specimen will be lost unless you saved it.')) resetAll();
-    });
-    // Wizard stays hidden until the user clicks ENTER THE FORGE.
+    $('#btn-back-to-wizard').addEventListener('click', showWizardView);
+    renderStep();
   }
 
   init();
