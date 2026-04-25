@@ -200,41 +200,66 @@
   .intro-enter:hover { background: #ff6b7a; transform: scale(1.03); }
   .intro-enter:active { transform: translateY(3px); border-bottom-width: 2px; }
 
-  /* ===== Casino wheel + lever (rarity) ===== */
+  /* ===== Carnival wheel of fate (rarity) ===== */
   .casino-wrap {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 28px;
     flex-wrap: wrap;
+    padding: 22px 0 12px 0;
   }
   .casino-wheel-wrap {
     position: relative;
-    width: 320px;
-    height: 320px;
+    width: 380px;
+    height: 380px;
+    max-width: 92vw;
+    max-height: 92vw;
     display: flex;
     align-items: center;
     justify-content: center;
   }
   .casino-wheel-svg {
-    width: 100%;
-    height: 100%;
-    filter: drop-shadow(0 0 14px rgba(0,0,0,0.55));
+    width: 92%;
+    height: 92%;
+    filter: drop-shadow(0 0 18px rgba(0,0,0,0.6));
     transform-origin: 50% 50%;
     will-change: transform;
   }
+  /* Carnival marquee bulbs ring around the wheel */
+  .carnival-bulbs {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .carnival-bulb {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 12px; height: 12px;
+    margin: -6px 0 0 -6px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #fff5b8, #ffcb05 55%, #8a6a00 100%);
+    box-shadow: 0 0 8px rgba(255,203,5,0.85), 0 0 14px rgba(255,170,40,0.55);
+    transform: rotate(calc(var(--i) * 22.5deg)) translateY(-178px);
+    animation: bulbBlink 1.4s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 0.09s);
+  }
+  @keyframes bulbBlink {
+    0%, 100% { opacity: 1; filter: brightness(1.0); }
+    50%      { opacity: 0.45; filter: brightness(0.55); }
+  }
   .casino-pointer {
     position: absolute;
-    top: -6px; left: 50%;
+    top: -2px; left: 50%;
     transform: translateX(-50%) rotate(0deg);
     transform-origin: 50% 100%;
     width: 0; height: 0;
-    border-left: 14px solid transparent;
-    border-right: 14px solid transparent;
-    border-top: 30px solid var(--accent);
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    border-top: 36px solid var(--accent);
     filter: drop-shadow(0 2px 0 #8a6a00) drop-shadow(0 3px 4px rgba(0,0,0,0.55));
-    z-index: 3;
+    z-index: 4;
     transition: transform 0.07s ease-out;
   }
   .casino-pointer.kick { transform: translateX(-50%) rotate(-14deg); }
@@ -242,100 +267,24 @@
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    width: 58px; height: 58px;
+    width: 70px; height: 70px;
     background: radial-gradient(circle at 35% 28%, #ffe686, var(--accent) 55%, #8a6a00 95%);
     border: 3px solid #1a1d2e;
     border-radius: 50%;
-    box-shadow: inset -4px -4px 8px rgba(0,0,0,0.4), 0 0 10px rgba(255,203,5,0.6);
-    z-index: 2;
+    box-shadow: inset -4px -4px 8px rgba(0,0,0,0.4), 0 0 14px rgba(255,203,5,0.7);
+    z-index: 3;
     font-family: 'Press Start 2P', monospace;
-    font-size: 7px;
+    font-size: 8px;
+    line-height: 1.2;
     display: flex; align-items: center; justify-content: center;
     color: #1a1d2e;
     letter-spacing: 1px;
+    text-align: center;
   }
-  /* Vintage casino arm lever */
-  .casino-lever {
-    position: relative;
-    width: 90px;
-    height: 300px;
-    cursor: pointer;
-    user-select: none;
-    flex-shrink: 0;
-  }
-  .casino-lever .base {
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 42px;
-    background: linear-gradient(180deg, #555d80 0%, #2a2f48 70%, #1a1d2e 100%);
-    border: 2px solid #0a0c18;
-    border-radius: 6px;
-    box-shadow: inset 0 -4px 8px rgba(0,0,0,0.6), 0 4px 10px rgba(0,0,0,0.5);
-  }
-  .casino-lever .base::before {
-    content: '';
-    position: absolute;
-    top: 6px; left: 8px; right: 8px;
-    height: 3px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 2px;
-  }
-  .casino-lever .pivot {
-    position: absolute;
-    left: 50%;
-    bottom: 28px;
-    transform: translateX(-50%);
-    width: 20px; height: 20px;
-    background: radial-gradient(circle, #ffcb05 30%, #8a6a00 90%);
-    border: 2px solid #0a0c18;
-    border-radius: 50%;
-    z-index: 3;
-  }
-  .casino-lever .arm {
-    position: absolute;
-    left: 50%;
-    bottom: 32px;
-    transform-origin: 50% 100%;
-    transform: translateX(-50%) rotate(0deg);
-    width: 14px;
-    height: 240px;
-    background: linear-gradient(90deg, #3a4060 0%, #b8bedc 40%, #f4e9d8 52%, #b8bedc 64%, #3a4060 100%);
-    border: 2px solid #0a0c18;
-    border-radius: 8px 8px 4px 4px;
-    transition: transform 0.5s cubic-bezier(0.34, 1.6, 0.64, 1);
-    z-index: 2;
-  }
-  .casino-lever .knob {
-    position: absolute;
-    top: -22px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 48px; height: 48px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 32% 28%, #ff9aa3, var(--accent-2) 55%, #6a1020 100%);
-    border: 3px solid #0a0c18;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.6), inset -5px -5px 10px rgba(0,0,0,0.4);
-  }
-  .casino-lever:hover .knob { filter: brightness(1.15); }
-  .casino-lever.pulled .arm { transform: translateX(-50%) rotate(78deg); }
-  .casino-lever-hint {
-    position: absolute;
-    bottom: -26px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: 'Press Start 2P', monospace;
-    font-size: 7px;
-    color: var(--ink-dim);
-    letter-spacing: 1px;
-    white-space: nowrap;
-  }
-  @media (max-width: 720px) {
-    .casino-wrap { gap: 16px; }
-    .casino-lever { width: 70px; height: 240px; }
-    .casino-lever .arm { height: 190px; }
+  @media (max-width: 460px) {
+    .casino-wheel-wrap { width: 320px; height: 320px; }
+    .carnival-bulb { transform: rotate(calc(var(--i) * 22.5deg)) translateY(-148px); width: 10px; height: 10px; margin: -5px 0 0 -5px; }
+    .casino-hub { width: 60px; height: 60px; font-size: 7px; }
   }
 
   .wheel-legend {
@@ -385,9 +334,9 @@
   .coin-face.heads { transform: rotateY(0deg); }
   .coin-face.tails { transform: rotateY(180deg); }
 
-  /* ===== Claw machine (types) ===== */
+  /* ===== Claw machine (types) — carnival cabinet w/ neon trim ===== */
   .claw-wrap {
-    width: 340px;
+    width: 360px;
     max-width: 100%;
     display: flex;
     flex-direction: column;
@@ -397,125 +346,250 @@
   .claw-cabinet {
     position: relative;
     width: 100%;
-    height: 280px;
-    background:
-      radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.10), transparent 55%),
-      linear-gradient(180deg, #2a2f48 0%, #12142a 100%);
-    border: 4px solid #8a6a00;
-    border-radius: 10px 10px 4px 4px;
+    background: linear-gradient(180deg, #2a1230 0%, #160a1f 100%);
+    border: 4px solid #ff47a8;
+    border-radius: 14px 14px 6px 6px;
+    box-shadow:
+      0 0 24px rgba(255,71,168,0.45),
+      0 8px 24px rgba(0,0,0,0.6),
+      inset 0 0 40px rgba(0,0,0,0.55);
+    padding: 0;
     overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.55), inset 0 0 30px rgba(0,0,0,0.5);
   }
-  .claw-cabinet::after {
+  .claw-marquee {
+    position: relative;
+    background: linear-gradient(180deg, #ff47a8 0%, #c01876 100%);
+    color: #fff;
+    text-align: center;
+    padding: 8px 6px 9px 6px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-shadow: 0 0 6px rgba(255,255,255,0.8), 1px 1px 0 #5a0828;
+    border-bottom: 3px solid #5a0828;
+    box-shadow: inset 0 -4px 8px rgba(0,0,0,0.3);
+  }
+  .claw-marquee::before, .claw-marquee::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 8px; height: 8px;
+    margin-top: -4px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #fff8d0, #ffcb05 60%, #8a6a00 100%);
+    box-shadow: 0 0 8px rgba(255,203,5,0.9);
+    animation: bulbBlink 1s ease-in-out infinite;
+  }
+  .claw-marquee::before { left: 10px; }
+  .claw-marquee::after { right: 10px; animation-delay: 0.5s; }
+  .claw-cabinet-inner {
+    position: relative;
+    height: 290px;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(255,71,168,0.12), transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(0,224,255,0.10), transparent 55%),
+      linear-gradient(180deg, #160a1f 0%, #0a0414 100%);
+    overflow: hidden;
+    border-top: 1px solid rgba(0,224,255,0.25);
+  }
+  .claw-cabinet-inner::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(120deg, rgba(255,255,255,0.06) 0%, transparent 40%);
+    background: linear-gradient(125deg, rgba(255,255,255,0.06) 0%, transparent 35%, transparent 65%, rgba(255,255,255,0.04) 100%);
     pointer-events: none;
+    z-index: 5;
   }
   .claw-rail {
     position: absolute;
-    top: 12px;
-    left: 8px; right: 8px;
-    height: 5px;
-    background: linear-gradient(180deg, #a88200, #5a4400);
-    border-radius: 2px;
+    top: 14px;
+    left: 6px; right: 6px;
+    height: 7px;
+    background:
+      linear-gradient(180deg, #c8d0e8 0%, #8090b8 45%, #2a3050 100%);
+    border-radius: 3px;
     z-index: 3;
-    box-shadow: 0 1px 0 rgba(0,0,0,0.4);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.4);
   }
+  .claw-rail::before, .claw-rail::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    width: 4px; height: 4px;
+    background: #4a5070;
+    border-radius: 50%;
+    box-shadow: inset 0 1px 0 rgba(0,0,0,0.5);
+  }
+  .claw-rail::before { left: 4px; }
+  .claw-rail::after { right: 4px; }
   .claw-arm {
     position: absolute;
-    top: 17px;
+    top: 21px;
     left: 50%;
-    width: 2px;
+    width: 0;
     height: 30px;
-    background: linear-gradient(90deg, #4a3600, #c9cee0, #4a3600);
     transform: translateX(-50%);
     z-index: 4;
     transition: left 0.8s cubic-bezier(0.4,0,0.6,1), height 1.2s cubic-bezier(0.5,0,0.5,1);
   }
-  .claw-head {
+  /* Trolley block — sits at the top, rides the rail */
+  .claw-trolley {
     position: absolute;
-    bottom: -14px;
+    top: -10px;
     left: 50%;
     transform: translateX(-50%);
     width: 36px;
     height: 18px;
+    background: linear-gradient(180deg, #d8dff0 0%, #6a7090 60%, #2a3050 100%);
+    border: 2px solid #0a0c18;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.4);
+    z-index: 1;
+  }
+  .claw-trolley::before {
+    content: '';
+    position: absolute;
+    top: 3px; left: 4px; right: 4px;
+    height: 3px;
+    background: #1a1d2e;
+    border-radius: 1px;
+  }
+  /* The cable — a thin line that grows with the arm height */
+  .claw-cable {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, #2a3050 0%, #4a5070 45%, #2a3050 100%);
+    border-left: 1px solid rgba(0,0,0,0.5);
+    border-right: 1px solid rgba(0,0,0,0.5);
+    z-index: 0;
+  }
+  .claw-head {
+    position: absolute;
+    bottom: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 56px;
+    height: 36px;
+    z-index: 2;
+  }
+  .claw-head-cap {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 28px; height: 12px;
+    background: linear-gradient(180deg, #d8dff0 0%, #6a7090 70%, #2a3050 100%);
+    border: 2px solid #0a0c18;
+    border-radius: 4px 4px 2px 2px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
   }
   .claw-finger {
     position: absolute;
-    top: 0;
-    width: 14px;
-    height: 22px;
-    background: linear-gradient(180deg, #e0e4f0 0%, #808aa8 55%, #303554 100%);
-    border: 1px solid #0a0c18;
-    transition: transform 0.3s cubic-bezier(0.4,0,0.6,1);
+    top: 8px;
+    width: 8px;
+    height: 28px;
+    background: linear-gradient(180deg, #e8edf8 0%, #808aa8 50%, #303554 100%);
+    border: 1.5px solid #0a0c18;
+    border-radius: 4px 4px 60% 60%;
+    transition: transform 0.32s cubic-bezier(0.4,0,0.6,1);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
   }
-  .claw-finger.left {
-    left: 0;
-    clip-path: polygon(0% 0%, 100% 0%, 100% 45%, 60% 100%, 0% 100%);
-    transform-origin: 100% 0%;
-  }
-  .claw-finger.right {
-    right: 0;
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 40% 100%, 0% 45%);
-    transform-origin: 0% 0%;
-  }
-  .claw-arm.closing .claw-finger.left  { transform: rotate(22deg); }
-  .claw-arm.closing .claw-finger.right { transform: rotate(-22deg); }
+  .claw-finger.left   { left: 8px;  transform-origin: 50% 0%; transform: rotate(-22deg); }
+  .claw-finger.center { left: 50%; margin-left: -4px; transform-origin: 50% 0%; }
+  .claw-finger.right  { right: 8px; transform-origin: 50% 0%; transform: rotate(22deg); }
+  .claw-arm.closing .claw-finger.left   { transform: rotate(8deg); }
+  .claw-arm.closing .claw-finger.center { transform: rotate(0deg); }
+  .claw-arm.closing .claw-finger.right  { transform: rotate(-8deg); }
   .claw-grabbed {
     position: absolute;
     width: 30px; height: 30px;
     border-radius: 50%;
-    top: 100%;
+    top: 18px;
     left: 50%;
     margin-left: -15px;
-    margin-top: -4px;
     border: 2px solid #0a0c18;
     box-shadow: inset -4px -4px 6px rgba(0,0,0,0.45), 0 2px 4px rgba(0,0,0,0.5);
     opacity: 0;
     transition: opacity 0.15s;
-    z-index: 2;
+    z-index: 1;
   }
   .claw-grabbed.visible { opacity: 1; }
   .claw-pool {
     position: absolute;
     left: 0; right: 0;
-    top: 90px; bottom: 0;
+    top: 110px; bottom: 0;
     pointer-events: none;
     z-index: 1;
+    border-top: 2px dashed rgba(0,224,255,0.15);
   }
   .claw-ball {
     position: absolute;
-    width: 22px; height: 22px;
+    width: 28px; height: 28px;
     border-radius: 50%;
     border: 2px solid #0a0c18;
-    box-shadow: inset -3px -3px 5px rgba(0,0,0,0.45), 0 2px 3px rgba(0,0,0,0.4);
+    box-shadow: inset -4px -4px 7px rgba(0,0,0,0.5), inset 3px 3px 6px rgba(255,255,255,0.35), 0 2px 4px rgba(0,0,0,0.5);
     animation: clawBounce 3s ease-in-out infinite;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: rgba(0,0,0,0.65);
+    text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+    letter-spacing: 0.5px;
   }
   @keyframes clawBounce {
     0%, 100% { transform: translateY(0) rotate(0deg); }
-    50%      { transform: translateY(-6px) rotate(180deg); }
+    50%      { transform: translateY(-5px) rotate(180deg); }
   }
   .claw-chute {
     position: absolute;
-    bottom: 0; right: 6px;
-    width: 54px; height: 40px;
-    background: linear-gradient(180deg, #0a0c18 0%, #1a1d2e 100%);
-    border-top: 2px solid #8a6a00;
-    border-left: 2px solid #8a6a00;
-    border-radius: 4px 0 0 0;
+    bottom: 0; right: 8px;
+    width: 64px; height: 50px;
+    background: linear-gradient(180deg, #1a0a24 0%, #0a0414 100%);
+    border-top: 3px solid #00e0ff;
+    border-left: 3px solid #00e0ff;
+    border-radius: 6px 0 0 0;
+    box-shadow: 0 -2px 14px rgba(0,224,255,0.5), inset 4px 4px 12px rgba(0,0,0,0.5);
     z-index: 2;
+    overflow: hidden;
   }
   .claw-chute::after {
-    content: 'OUT';
+    content: '◀ PRIZE';
     position: absolute;
-    top: 12px; left: 50%;
+    top: 14px; left: 50%;
     transform: translateX(-50%);
     font-family: 'Press Start 2P', monospace;
     font-size: 7px;
-    color: var(--accent);
+    color: #00e0ff;
     letter-spacing: 1px;
+    text-shadow: 0 0 4px rgba(0,224,255,0.8);
+    white-space: nowrap;
+  }
+  /* Coin slot — bottom-left decoration */
+  .claw-coinslot {
+    position: absolute;
+    bottom: 8px; left: 12px;
+    width: 38px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 6px;
+    color: rgba(255,71,168,0.85);
+    letter-spacing: 1px;
+    text-align: center;
+    z-index: 2;
+    text-shadow: 0 0 3px rgba(255,71,168,0.6);
+  }
+  .claw-coinslot::before {
+    content: '';
+    display: block;
+    width: 24px; height: 5px;
+    margin: 0 auto 3px auto;
+    background: #0a0414;
+    border: 2px solid rgba(255,71,168,0.7);
+    border-radius: 1px;
+    box-shadow: inset 0 1px 0 rgba(0,0,0,0.6), 0 0 6px rgba(255,71,168,0.4);
   }
   .claw-reveal {
     min-height: 78px;
@@ -804,6 +878,26 @@
     color: var(--ink);
     text-align: right;
     font-weight: bold;
+  }
+  /* Shimmer state — bars vibrate while values cycle */
+  .stat-bar-shimmer .stat-bar-inner {
+    background: linear-gradient(90deg, #00e0ff 0%, var(--accent) 50%, #ff47a8 100%);
+    box-shadow: 0 0 14px rgba(0,224,255,0.5);
+    transition: width 90ms linear !important;
+  }
+  .stat-bar-shimmer .stat-bar-value {
+    color: var(--accent);
+    text-shadow: 0 0 6px rgba(255,203,5,0.6);
+    animation: statFlicker 0.9s ease-in-out infinite;
+  }
+  .stats-top.shimmer-total .stats-total {
+    color: var(--accent);
+    text-shadow: 0 0 8px rgba(255,203,5,0.7);
+    animation: statFlicker 0.9s ease-in-out infinite;
+  }
+  @keyframes statFlicker {
+    0%, 100% { opacity: 1; filter: brightness(1.0); }
+    50%      { opacity: 0.78; filter: brightness(1.25); }
   }
 
   /* ===== Buttons ===== */
@@ -1698,10 +1792,9 @@
   // ============================================================
   function renderPokeballCoin(pips) {
     // pips: 1 for single-type side, 2 for dual-type side.
-    const pipsSvg = pips === 1
-      ? `<circle cx="100" cy="100" r="6" fill="#2a1e00"/>`
-      : `<circle cx="92" cy="100" r="5" fill="#2a1e00"/><circle cx="108" cy="100" r="5" fill="#2a1e00"/>`;
-    const label = pips === 1 ? 'I' : 'II';
+    // Central button shows a giant numeral so the result is unambiguous.
+    const numeral = String(pips);
+    const subtitle = pips === 1 ? 'SINGLE TYPE' : 'DUAL TYPE';
     // Rim dots (minted edge effect).
     let edgeDots = '';
     for (let i = 0; i < 40; i++) {
@@ -1737,14 +1830,21 @@
       <!-- Central belt -->
       <rect x="14" y="95" width="172" height="10" fill="#4a3600"/>
       <rect x="14" y="97" width="172" height="2" fill="#ffe686" opacity="0.55"/>
-      <!-- Center button -->
-      <circle cx="100" cy="100" r="28" fill="#4a3600"/>
-      <circle cx="100" cy="100" r="24" fill="url(#goldBtn${pips})"/>
-      <circle cx="100" cy="100" r="18" fill="none" stroke="#4a3600" stroke-width="2" opacity="0.8"/>
-      ${pipsSvg}
-      <!-- Arc legend -->
-      <text x="100" y="34" text-anchor="middle" font-family="Press Start 2P, monospace" font-size="10" fill="#4a3600" letter-spacing="1">POKÉFORGE</text>
-      <text x="100" y="180" text-anchor="middle" font-family="Press Start 2P, monospace" font-size="12" fill="#4a3600" letter-spacing="2">${label}</text>
+      <!-- Big center button — large enough to host the numeral -->
+      <circle cx="100" cy="100" r="40" fill="#4a3600"/>
+      <circle cx="100" cy="100" r="36" fill="url(#goldBtn${pips})"/>
+      <circle cx="100" cy="100" r="30" fill="none" stroke="#4a3600" stroke-width="2.5" opacity="0.85"/>
+      <!-- Giant numeral — the headline element -->
+      <text x="100" y="116"
+            text-anchor="middle"
+            font-family="'Press Start 2P', monospace"
+            font-size="40" font-weight="bold"
+            fill="#2a1e00"
+            stroke="#fff6c8" stroke-width="0.6"
+            paint-order="stroke fill">${numeral}</text>
+      <!-- Arc legends -->
+      <text x="100" y="34" text-anchor="middle" font-family="'Press Start 2P', monospace" font-size="10" fill="#4a3600" letter-spacing="1">POKÉFORGE</text>
+      <text x="100" y="180" text-anchor="middle" font-family="'Press Start 2P', monospace" font-size="9" fill="#4a3600" letter-spacing="2">${subtitle}</text>
     </svg>`;
   }
 
@@ -1752,28 +1852,36 @@
   // CLAW MACHINE (types)
   // ============================================================
   function renderClawMachine() {
-    // Decorative floating balls in the pool — random subset of type colors.
-    const poolColors = [];
-    const shuffled = [...TYPES].sort(() => Math.random() - 0.5).slice(0, 12);
-    shuffled.forEach(t => poolColors.push(t.color));
-    const ballsHtml = poolColors.map((c, i) => {
-      const left = 4 + (i % 4) * 23 + (Math.random() * 6 - 3);
-      const top  = 4 + Math.floor(i / 4) * 30 + (Math.random() * 6 - 3);
+    // Decorative floating balls in the pool — random subset of type colors,
+    // each labelled with the first 3 letters so the cabinet feels populated.
+    const shuffled = [...TYPES].sort(() => Math.random() - 0.5).slice(0, 14);
+    const ballsHtml = shuffled.map((t, i) => {
+      const left = 3 + (i % 5) * 18.5 + (Math.random() * 4 - 2);
+      const top  = 4 + Math.floor(i / 5) * 36 + (Math.random() * 6 - 3);
       const delay = (Math.random() * 3).toFixed(2);
-      return `<div class="claw-ball" style="background:${c}; left:${left}%; top:${top}%; animation-delay:${delay}s;"></div>`;
+      const abbr = t.name.slice(0, 3);
+      return `<div class="claw-ball" style="background:${t.color}; left:${left}%; top:${top}%; animation-delay:${delay}s;">${abbr}</div>`;
     }).join('');
     return `<div class="claw-wrap">
       <div class="claw-cabinet">
-        <div class="claw-rail"></div>
-        <div class="claw-arm" id="claw-arm" style="left:50%; height:30px;">
-          <div class="claw-head">
-            <div class="claw-finger left"></div>
-            <div class="claw-finger right"></div>
-            <div class="claw-grabbed" id="claw-grabbed"></div>
+        <div class="claw-marquee">★ TYPE GRABBER ★</div>
+        <div class="claw-cabinet-inner">
+          <div class="claw-rail"></div>
+          <div class="claw-arm" id="claw-arm" style="left:50%; height:30px;">
+            <div class="claw-trolley"></div>
+            <div class="claw-cable"></div>
+            <div class="claw-head">
+              <div class="claw-head-cap"></div>
+              <div class="claw-finger left"></div>
+              <div class="claw-finger center"></div>
+              <div class="claw-finger right"></div>
+              <div class="claw-grabbed" id="claw-grabbed"></div>
+            </div>
           </div>
+          <div class="claw-pool">${ballsHtml}</div>
+          <div class="claw-chute"></div>
+          <div class="claw-coinslot">25¢</div>
         </div>
-        <div class="claw-pool">${ballsHtml}</div>
-        <div class="claw-chute"></div>
       </div>
       <div class="claw-reveal" id="claw-reveal">
         <div class="claw-reveal-slot">
@@ -1965,14 +2073,7 @@
     return new Promise(resolve => {
       const wheelEl = document.querySelector('.casino-wheel-svg');
       const pointerEl = document.getElementById('casino-pointer');
-      const leverEl = document.getElementById('casino-lever');
       if (!wheelEl) { setTimeout(resolve, 400); return; }
-
-      // Lever pull + spring back
-      if (leverEl) {
-        leverEl.classList.add('pulled');
-        setTimeout(() => leverEl.classList.remove('pulled'), 520);
-      }
 
       const totalWeight = segments.reduce((s, x) => s + (x.weight || 1), 0);
       let cumBefore = 0;
@@ -2522,7 +2623,7 @@
 
   function getSpinLabel(stepKey) {
     const labels = {
-      rarity: '▶ PULL THE LEVER', typecount: '▶ FLIP THE COIN',
+      rarity: '▶ SPIN THE WHEEL', typecount: '▶ FLIP THE COIN',
       types: '▶ DROP THE CLAW',
       stage: '▶ STOP THE REELS',  perk: '▶ DEAL THE CARDS',
       stats: '▶ ROLL THE STATS',
@@ -2531,6 +2632,7 @@
   }
 
   function renderStep() {
+    if (typeof stopStatShimmer === 'function') stopStatShimmer();
     renderStepIndicator();
     renderSidebar();
 
@@ -2565,13 +2667,6 @@
       spinBtn.style.color = '#1a1d2e';
     } else {
       spinBtn.addEventListener('click', async () => { await spinStep(step.key); });
-      // The casino lever is an alternate trigger for the rarity spin.
-      if (step.key === 'rarity') {
-        const lever = $('#casino-lever');
-        if (lever) lever.addEventListener('click', async () => {
-          if (!state.spinning && !isStepComplete(state.step)) await spinStep('rarity');
-        });
-      }
     }
 
     $('#btn-back').disabled = state.step === 0;
@@ -2580,21 +2675,19 @@
 
   function buildStepWidget(stepKey, segments) {
     switch (stepKey) {
-      case 'rarity':
+      case 'rarity': {
+        const bulbs = Array.from({ length: 16 }, (_, i) =>
+          `<span class="carnival-bulb" style="--i:${i};"></span>`).join('');
         return `<div class="casino-wrap">
           <div class="casino-wheel-wrap">
+            <div class="carnival-bulbs">${bulbs}</div>
             <div class="casino-pointer" id="casino-pointer"></div>
-            ${renderCasinoWheel(segments, 320)}
+            ${renderCasinoWheel(segments, 360)}
             <div class="casino-hub">WHEEL<br>OF FATE</div>
-          </div>
-          <div class="casino-lever" id="casino-lever" role="button" aria-label="Pull the lever">
-            <div class="base"></div>
-            <div class="arm"><div class="knob"></div></div>
-            <div class="pivot"></div>
-            <div class="casino-lever-hint">PULL ▼</div>
           </div>
         </div>
         ${renderWheelLegend(segments)}`;
+      }
 
       case 'typecount':
         return `<div class="coin-wrap">
@@ -2631,22 +2724,93 @@
     const hasStats = STAT_NAMES.every(s => state.stats[s] != null);
     body.innerHTML = `
       <div id="step-stats-bars" style="width:100%; max-width:460px;"></div>
-      <button class="btn-spin-big" id="btn-spin-current">${hasStats ? '🎲 RE-RANDOMIZE' : '🎲 RANDOMIZE STATS'}</button>
-      <div style="font-family:'VT323', monospace; font-size:13px; color:var(--ink-dim); text-align:center; max-width:420px; padding:0 10px;">
-        Stats roll from a seed based on rarity + stage, then walk up or down for each stat with type biases applied.
+      <button class="btn-spin-big" id="btn-spin-current">${hasStats ? '✓ LOCKED IN' : '🎲 LOCK IN STATS'}</button>
+      <div id="stats-help" style="font-family:'VT323', monospace; font-size:13px; color:var(--ink-dim); text-align:center; max-width:420px; padding:0 10px;">
+        ${hasStats
+          ? 'Stats locked in — based on rarity, stage and type biases.'
+          : 'Numbers shimmer until you commit. Tap LOCK IN to freeze the roll — no rerolls.'}
       </div>
     `;
-    renderStatsBars('#step-stats-bars', false);
     const btn = $('#btn-spin-current');
+    $('#btn-back').disabled = false;
+
+    if (hasStats) {
+      renderStatsBars('#step-stats-bars', false);
+      btn.disabled = true;
+      btn.style.background = 'var(--good)';
+      btn.style.borderBottomColor = '#3a8a3a';
+      btn.style.color = '#1a1d2e';
+      $('#btn-next').disabled = false;
+      return;
+    }
+
+    // Pre-roll the real stats so they exist behind the shimmer, then hide them
+    // until the user commits.
+    rollStats();
+    const rolledStats = { ...state.stats };
+    STAT_NAMES.forEach(s => state.stats[s] = null);
+    renderSidebar();   // sidebar shows shimmering "—" too
+    startStatShimmer('#step-stats-bars');
+    $('#btn-next').disabled = true;
+
     btn.addEventListener('click', () => {
-      rollStats();
+      stopStatShimmer();
+      state.stats = rolledStats;
+      regenerateDerived();
       renderStatsBars('#step-stats-bars', true);
       renderSidebar();
+      btn.disabled = true;
+      btn.textContent = '✓ LOCKED IN';
+      btn.style.background = 'var(--good)';
+      btn.style.borderBottomColor = '#3a8a3a';
+      btn.style.color = '#1a1d2e';
+      const help = $('#stats-help');
+      if (help) help.textContent = 'Stats locked in — based on rarity, stage and type biases.';
       $('#btn-next').disabled = false;
-      btn.textContent = '🎲 RE-RANDOMIZE';
     });
-    $('#btn-next').disabled = !hasStats;
-    $('#btn-back').disabled = false;
+  }
+
+  // Shimmer: cycles random stat values until the user clicks LOCK IN.
+  let _statShimmerHandle = null;
+  function startStatShimmer(containerSelector) {
+    const c = typeof containerSelector === 'string' ? $(containerSelector) : containerSelector;
+    if (!c) return;
+    const rowsHtml = STAT_NAMES.map(s =>
+      `<div class="stat-bar-row stat-bar-shimmer">
+        <span class="stat-bar-name">${s}</span>
+        <div class="stat-bar-outer"><div class="stat-bar-inner" data-stat="${s}" style="width:0%;"></div></div>
+        <span class="stat-bar-value" data-value="${s}">—</span>
+      </div>`
+    ).join('');
+    c.innerHTML = `<div class="stats-bars-wrap">
+      <div class="stats-top shimmer-total">
+        <span>BASE STATS</span>
+        <span class="stats-total" id="stat-shimmer-total">TOTAL ???</span>
+      </div>
+      ${rowsHtml}
+    </div>`;
+    stopStatShimmer();
+    const tick = () => {
+      let total = 0;
+      STAT_NAMES.forEach(s => {
+        const v = 20 + Math.floor(Math.random() * 235);
+        total += v;
+        const bar = c.querySelector(`.stat-bar-inner[data-stat="${s}"]`);
+        const valEl = c.querySelector(`.stat-bar-value[data-value="${s}"]`);
+        if (bar) bar.style.width = Math.min(100, (v / 200) * 100) + '%';
+        if (valEl) valEl.textContent = v;
+      });
+      const tot = document.getElementById('stat-shimmer-total');
+      if (tot) tot.textContent = `TOTAL ${total}`;
+    };
+    tick();
+    _statShimmerHandle = setInterval(tick, 95);
+  }
+  function stopStatShimmer() {
+    if (_statShimmerHandle) {
+      clearInterval(_statShimmerHandle);
+      _statShimmerHandle = null;
+    }
   }
 
   function clearFrom(stepKey) {
@@ -2921,12 +3085,24 @@
 
   async function loadAiConfig() {
     const raw = await storage.get(AI_CONFIG_KEY);
-    if (raw) { try { return JSON.parse(raw); } catch(e) {} }
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw);
+        // One-time migration: bump anyone still on the old `flux` default to `gptimage`,
+        // which has dramatically better prompt adherence (see AI_RESEARCH.md).
+        if (parsed.pollinationsModel === 'flux' && !parsed.userPickedModel) {
+          parsed.pollinationsModel = 'gptimage';
+        }
+        return parsed;
+      } catch(e) {}
+    }
     return {
       backend: 'pollinations',        // pollinations | anthropic-direct | anthropic-proxy | anthropic-claudeai
-      pollinationsModel: 'flux',      // flux | flux-realism | turbo | any other Pollinations-supported model name
+      pollinationsModel: 'gptimage',  // gptimage (best adherence) | flux | turbo | seedream | kontext
+      pollinationsFallback: 'flux',   // tried automatically if the primary model errors
       pollinationsSeed: '',           // empty = random each call
-      pollinationsSize: 512,          // 512, 768, 1024
+      pollinationsSize: 768,          // 512, 768, 1024 — bumped to 768 for sharper detail
+      pollinationsEnhance: true,      // server-side prompt enrichment
       anthropicApiKey: '',
       anthropicProxyUrl: DEFAULT_PROXY,
       anthropicModel: DEFAULT_ANTHROPIC_MODEL,
@@ -2959,27 +3135,27 @@
    * formKind: 'normal' (default) | 'mega' | 'giga'
    */
   function buildPollinationsPrompt(formKind = 'normal') {
+    // Subject-first ordering: FLUX & gpt-image weight the first 60–80 tokens hardest,
+    // so we lead with WHAT to draw before HOW. See AI_RESEARCH.md for details.
     const typeStr = state.type2
-      ? `${state.type1.name.toLowerCase()} and ${state.type2.name.toLowerCase()} dual-type`
+      ? `${state.type1.name.toLowerCase()}/${state.type2.name.toLowerCase()} dual-type`
       : `${state.type1.name.toLowerCase()}-type`;
     const stageDesc = state.stage === 1
-      ? 'small base-form creature, round cute proportions'
+      ? 'small rounded base-form'
       : state.stage === 2
-      ? 'mid-evolution creature, more defined features'
+      ? 'mid-stage evolution'
       : 'fully evolved final form, imposing silhouette';
     const rarityDesc =
-        state.rarity.name === 'LEGENDARY'       ? 'rare legendary creature with faint aura'
-      : state.rarity.name === 'MYTHICAL'        ? 'mythical creature, delicate and otherworldly'
+        state.rarity.name === 'LEGENDARY'       ? 'legendary creature with faint glowing aura'
+      : state.rarity.name === 'MYTHICAL'        ? 'mythical, delicate, otherworldly'
       : state.rarity.name === 'ULTRA BEAST'     ? 'alien ultra beast with unnatural geometry'
       : state.rarity.name === 'PSEUDO-LEGENDARY'? 'powerful draconic pseudo-legendary'
-      : 'ordinary-looking pokémon';
+      : '';
 
-    // Form transformation cue — only for the optional second render.
     let formCue = '';
-    if (formKind === 'mega') formCue = ', depicted in its Mega-Evolution form with dramatic new crests, lengthened limbs and secondary markings spreading across the body';
-    else if (formKind === 'giga') formCue = ', depicted in its colossal Gigantamax form, swollen to building size with surging red energy patterns across its body';
+    if (formKind === 'mega') formCue = ', Mega-Evolution form with dramatic new crests and secondary markings';
+    else if (formKind === 'giga') formCue = ', colossal Gigantamax form with surging red energy patterns';
 
-    // Palette hints — readable color names work better than hex.
     const typeToColor = {
       FIRE:'warm red and orange', WATER:'soft blue and cyan', GRASS:'fresh green and cream',
       ELECTRIC:'bright yellow with black accents', ICE:'pale blue and white', FIGHTING:'brown and muted red',
@@ -2992,14 +3168,31 @@
     const colorHint = [state.type1, state.type2].filter(Boolean)
       .map(t => typeToColor[t.name] || t.name.toLowerCase()).join(' with ');
 
-    // Sugimori-style visual cues — watercolor, soft outline, pastel, three-quarter pose.
-    return `official Pokémon artwork by Ken Sugimori, traditional watercolor and ink illustration, ` +
-           `single full-body creature centered in frame, three-quarter angled pose, ` +
-           `${stageDesc}, ${typeStr}, ${rarityDesc}${formCue}, ${colorHint} color palette, ` +
-           `soft pastel coloring with gentle watercolor washes, subtle sketchy ink outlines, clean cel shading, ` +
-           `expressive friendly eyes, anime-inspired monster design, Game Freak official concept art, ` +
-           `clean pure white background, no text, no watermark, no logo, no border, no signature, ` +
-           `high detail, professional nintendo pokedex artwork`;
+    // Subject (lead) → composition → rarity flavor → palette → style. Trim style verbiage hard.
+    const parts = [
+      `single original Pokémon creature, full body, centered, three-quarter angled pose`,
+      `${stageDesc}, ${typeStr}${formCue}`,
+      rarityDesc,
+      `${colorHint} palette`,
+      `official Pokémon artwork style by Ken Sugimori, hand-drawn watercolor and ink illustration, soft cel shading, big expressive eyes, anime monster design`,
+      `solid pure white background`,
+    ].filter(Boolean);
+    return parts.join(', ');
+  }
+
+  /**
+   * Negative prompt — moves prohibitions out of the positive prompt where they're
+   * largely ignored. Suppresses the most common Pollinations failure modes.
+   */
+  function buildPollinationsNegativePrompt() {
+    return [
+      'text', 'words', 'letters', 'logo', 'watermark', 'signature', 'caption',
+      'ui', 'hud', 'frame', 'border',
+      'multiple creatures', 'group', 'pair', 'two characters', 'herd', 'crowd',
+      'human', 'trainer', 'person', 'hands holding',
+      'pokeball', 'gameboy', 'screen', 'photograph', '3d render', 'cgi',
+      'low quality', 'blurry', 'deformed', 'extra limbs',
+    ].join(', ');
   }
 
   /** For Anthropic — asks the model to output raw SVG. */
@@ -3044,23 +3237,43 @@ COLORS:
   // Backend implementations
   // ------------------------------------------------------------
 
-  /** Pollinations — just build a URL and use it. No JSON, no auth. */
+  /** Pollinations — just build a URL and use it. No JSON, no auth.
+   *  Tries `cfg.pollinationsModel` first; on HTTP/network failure, retries once
+   *  with `cfg.pollinationsFallback` (default `flux`). */
   async function tryPollinations(cfg, log, formKind = 'normal') {
+    const primary = cfg.pollinationsModel || 'gptimage';
+    const fallback = cfg.pollinationsFallback || 'flux';
+    try {
+      return await pollinationsAttempt(cfg, log, formKind, primary);
+    } catch (e) {
+      // Rate-limit on the primary → propagate (user just needs to wait).
+      if (e.message.startsWith('Rate limited')) throw e;
+      if (primary === fallback) throw e;
+      log('pollinations fallback', `primary "${primary}" failed (${e.message}); retrying with "${fallback}"`);
+      return await pollinationsAttempt(cfg, log, formKind, fallback);
+    }
+  }
+
+  async function pollinationsAttempt(cfg, log, formKind, model) {
     const prompt = buildPollinationsPrompt(formKind);
+    const negative = buildPollinationsNegativePrompt();
     log('pollinations prompt', prompt);
+    log('pollinations negative_prompt', negative);
 
     const seed = cfg.pollinationsSeed || Math.floor(Math.random() * 1_000_000);
-    const size = cfg.pollinationsSize || 512;
-    const model = cfg.pollinationsModel || 'flux';
+    const size = cfg.pollinationsSize || 768;
     const params = new URLSearchParams({
       width: String(size),
       height: String(size),
       seed: String(seed),
       model,
       nologo: 'true',
+      nofeed: 'true',
+      negative_prompt: negative,
     });
+    if (cfg.pollinationsEnhance !== false) params.set('enhance', 'true');
     const url = `${POLLINATIONS_BASE}${encodeURIComponent(prompt)}?${params.toString()}`;
-    log('pollinations url', `length=${url.length}, model=${model}, size=${size}, seed=${seed}`);
+    log('pollinations url', `length=${url.length}, model=${model}, size=${size}, seed=${seed}, enhance=${cfg.pollinationsEnhance !== false}`);
 
     // Attempt 1: fetch → blob → dataURL (ideal path — gives us a self-contained data URL).
     // Fails in null-origin contexts (file://, about:srcdoc) because browsers send
