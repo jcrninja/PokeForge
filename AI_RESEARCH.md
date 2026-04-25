@@ -113,7 +113,49 @@ All five are implemented in this PR.
 
 ---
 
-## 6. Sources
+## 6. Iteration 2 (2026-04-25, same day)
+
+After the first round shipped, user feedback was: "images are too generic monsters,
+not in pokémon art style." Investigation:
+
+### What was still wrong
+
+The earlier prompt said "single original Pokémon creature" + "anime monster design".
+The model latched onto **monster** and **creature** as primary type tokens — both
+words bias outputs toward generic D&D / kaiju / horror-fauna styling. Even with
+"Sugimori watercolor" in the style block, the silhouettes came out wrong.
+
+### Fix — three changes
+
+1. **Drop "monster" and "creature" everywhere.** Replace with **"Pokémon character"**.
+   The word *Pokémon* is itself a strong style token; the word *creature* dilutes it.
+2. **Anchor with real Pokémon names by primary type.** A `TYPE_REFERENCES` map
+   provides 3 canonical Pokémon per type (e.g. FIRE → Charizard, Arcanine, Cinderace).
+   The prompt then says: *"same official artwork style as Charizard, Arcanine,
+   Cinderace — same proportions, same line weight, same shading language"*. This is
+   the single biggest quality lever — both `gptimage` and `flux` recognize these
+   names as visual references and the output style snaps to "real Pokémon."
+3. **Add Pokémon TCG framing.** *"Pokémon Trading Card Game illustrated card art
+   aesthetic, Game Freak character design sheet, studio promotional artwork."*
+   Aligns the model with a known commercial-art style.
+
+### Negative prompt — added "generic monster" cluster
+
+Previously only suppressed text/extra-creatures/photo. Added:
+`generic monster`, `D&D monster`, `kaiju`, `horror creature`, `realistic animal`,
+`oil painting`, `realistic fur`, `gritty`, `dark fantasy`, `figurine`. These were
+the literal output buckets the user complained about.
+
+### Re-forge support
+
+Also exposed: the existing button locked permanently on first success. Now becomes
+**🎨 RE-FORGE ART** after each successful generation, honoring the ~15s anonymous
+cooldown with a visible countdown. Each re-forge uses a fresh random seed so the
+output actually differs.
+
+---
+
+## 7. Sources
 
 - [Pollinations API docs](https://github.com/pollinations/pollinations/blob/main/APIDOCS.md)
 - [Pollinations model list page](https://pollinations-ai.com/models.html)

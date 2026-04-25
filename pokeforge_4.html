@@ -333,6 +333,34 @@
   .coin-face svg { width: 100%; height: 100%; display: block; }
   .coin-face.heads { transform: rotateY(0deg); }
   .coin-face.tails { transform: rotateY(180deg); }
+  /* HTML numeral overlay — guarantees the digit renders correctly even if SVG
+     text rendering hiccups, and lets us scale the digit independent of the SVG. */
+  .coin-numeral {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -54%);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 56px;
+    line-height: 1;
+    color: #2a1e00;
+    text-shadow:
+      0 0 2px #fff6c8, 1px 1px 0 #fff6c8, -1px -1px 0 #fff6c8,
+      1px -1px 0 #fff6c8, -1px 1px 0 #fff6c8,
+      0 3px 0 rgba(0,0,0,0.4);
+    pointer-events: none;
+    user-select: none;
+  }
+  .coin-subtitle {
+    position: absolute;
+    bottom: 22px; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: #4a3600;
+    letter-spacing: 2px;
+    pointer-events: none;
+    white-space: nowrap;
+  }
 
   /* ===== Claw machine (types) — carnival cabinet w/ neon trim ===== */
   .claw-wrap {
@@ -512,10 +540,26 @@
     left: 50%;
     margin-left: -15px;
     border: 2px solid #0a0c18;
-    box-shadow: inset -4px -4px 6px rgba(0,0,0,0.45), 0 2px 4px rgba(0,0,0,0.5);
+    box-shadow: inset -4px -4px 7px rgba(0,0,0,0.5), inset 3px 3px 6px rgba(255,255,255,0.35), 0 2px 4px rgba(0,0,0,0.5);
     opacity: 0;
-    transition: opacity 0.15s;
+    transition: opacity 0.15s, transform 0.2s;
     z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: rgba(0,0,0,0.7);
+    text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+    letter-spacing: 0.5px;
+  }
+  .claw-ball.targeted {
+    box-shadow:
+      inset -4px -4px 7px rgba(0,0,0,0.5),
+      inset 3px 3px 6px rgba(255,255,255,0.35),
+      0 0 12px rgba(255,255,255,0.85),
+      0 0 20px rgba(0,224,255,0.5);
+    transform: scale(1.08);
   }
   .claw-grabbed.visible { opacity: 1; }
   .claw-pool {
@@ -1792,10 +1836,9 @@
   // ============================================================
   function renderPokeballCoin(pips) {
     // pips: 1 for single-type side, 2 for dual-type side.
-    // Central button shows a giant numeral so the result is unambiguous.
-    const numeral = String(pips);
-    const subtitle = pips === 1 ? 'SINGLE TYPE' : 'DUAL TYPE';
-    // Rim dots (minted edge effect).
+    // The numeral itself is rendered as an HTML overlay (see renderCoinFace) — the
+    // SVG here is only the gold backdrop, so it doesn't matter if SVG text rendering
+    // is unreliable.
     let edgeDots = '';
     for (let i = 0; i < 40; i++) {
       const a = (i / 40) * Math.PI * 2;
@@ -1830,22 +1873,22 @@
       <!-- Central belt -->
       <rect x="14" y="95" width="172" height="10" fill="#4a3600"/>
       <rect x="14" y="97" width="172" height="2" fill="#ffe686" opacity="0.55"/>
-      <!-- Big center button — large enough to host the numeral -->
-      <circle cx="100" cy="100" r="40" fill="#4a3600"/>
-      <circle cx="100" cy="100" r="36" fill="url(#goldBtn${pips})"/>
-      <circle cx="100" cy="100" r="30" fill="none" stroke="#4a3600" stroke-width="2.5" opacity="0.85"/>
-      <!-- Giant numeral — the headline element -->
-      <text x="100" y="116"
-            text-anchor="middle"
-            font-family="'Press Start 2P', monospace"
-            font-size="40" font-weight="bold"
-            fill="#2a1e00"
-            stroke="#fff6c8" stroke-width="0.6"
-            paint-order="stroke fill">${numeral}</text>
-      <!-- Arc legends -->
-      <text x="100" y="34" text-anchor="middle" font-family="'Press Start 2P', monospace" font-size="10" fill="#4a3600" letter-spacing="1">POKÉFORGE</text>
-      <text x="100" y="180" text-anchor="middle" font-family="'Press Start 2P', monospace" font-size="9" fill="#4a3600" letter-spacing="2">${subtitle}</text>
+      <!-- Big center button — backdrop for the HTML numeral overlay -->
+      <circle cx="100" cy="100" r="42" fill="#4a3600"/>
+      <circle cx="100" cy="100" r="38" fill="url(#goldBtn${pips})"/>
+      <circle cx="100" cy="100" r="32" fill="none" stroke="#4a3600" stroke-width="2.5" opacity="0.85"/>
     </svg>`;
+  }
+
+  // One coin face = SVG backdrop + HTML numeral overlay + HTML subtitle.
+  function renderCoinFace(pips, sideClass) {
+    const numeral = String(pips);
+    const subtitle = pips === 1 ? 'SINGLE TYPE' : 'DUAL TYPE';
+    return `<div class="coin-face ${sideClass}">
+      ${renderPokeballCoin(pips)}
+      <div class="coin-numeral">${numeral}</div>
+      <div class="coin-subtitle">${subtitle}</div>
+    </div>`;
   }
 
   // ============================================================
@@ -2150,8 +2193,10 @@
     });
   }
 
-  // Claw machine: one claw pull that drops, grabs a ball, retracts, delivers to chute,
-  // and pops open to reveal the type. pullIdx is 1 or 2 (for dual-type).
+  // Claw machine: pick a real visible pool ball, swing the arm to its column,
+  // descend, fingers close around it, the ball is "lifted" (its pool element
+  // fades out and the in-claw element takes its place styled like the lifted ball),
+  // arm retracts, slides to chute, drops into the reveal slot. pullIdx is 1 or 2.
   function animateClaw(segments, winnerIdx, pullIdx) {
     return new Promise(resolve => {
       const arm = document.getElementById('claw-arm');
@@ -2159,35 +2204,83 @@
       const status = document.getElementById('claw-status');
       const ball = document.getElementById(`claw-reveal-${pullIdx}`);
       const label = document.getElementById(`claw-label-${pullIdx}`);
-      if (!arm || !grabbed || !ball) { setTimeout(resolve, 400); return; }
+      const cabinet = document.querySelector('.claw-cabinet-inner');
+      const pool = document.querySelector('.claw-pool');
+      if (!arm || !grabbed || !ball || !cabinet || !pool) { setTimeout(resolve, 400); return; }
 
       const winnerType = segments[winnerIdx].value;
       const wait = (ms) => new Promise(r => setTimeout(r, ms));
+      const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
 
       (async () => {
         if (status) status.textContent = pullIdx === 1 ? 'The claw descends…' : 'Claw reloading for type 2…';
 
-        // 1) Move claw to random horizontal position.
-        const targetX = 18 + Math.random() * 64;
+        // 1) Choose a real pool ball to grab. The claw will align to that ball's
+        //    column rather than a free-floating random X.
+        const candidates = Array.from(pool.querySelectorAll('.claw-ball'))
+          .filter(b => !b.dataset.taken && b.style.display !== 'none');
+        let chosenBall = null;
+        let targetX = clamp(20 + Math.random() * 60, 14, 86);
+        if (candidates.length) {
+          // Pick the candidate whose column is closest to a random target — keeps
+          // the choice non-deterministic but lets us snap onto an actual ball.
+          const cabRect = cabinet.getBoundingClientRect();
+          let bestDist = Infinity;
+          for (const b of candidates) {
+            const r = b.getBoundingClientRect();
+            const cxPct = (r.left + r.width / 2 - cabRect.left) / cabRect.width * 100;
+            const dist = Math.abs(cxPct - targetX);
+            if (dist < bestDist) { bestDist = dist; chosenBall = b; }
+          }
+          if (chosenBall) {
+            const bRect = chosenBall.getBoundingClientRect();
+            targetX = clamp(
+              (bRect.left + bRect.width / 2 - cabRect.left) / cabRect.width * 100,
+              14, 86
+            );
+            chosenBall.classList.add('targeted');
+          }
+        }
+
         arm.style.left = targetX + '%';
         arm.classList.remove('closing');
         grabbed.classList.remove('visible');
-        await wait(850);
+        grabbed.textContent = '';
+        grabbed.style.transform = '';
+        await wait(820);
 
-        // 2) Descend (extend arm height).
+        // 2) Descend.
         arm.style.height = '200px';
-        await wait(1200);
+        await wait(1100);
 
-        // 3) Close fingers + ball materializes inside the grip.
+        // 3) Fingers close. The chosen pool ball "jumps" into the grip and fades —
+        //    the in-claw grabbed element takes over, styled like a real ball with
+        //    the winner type's color and 3-letter abbreviation.
         arm.classList.add('closing');
-        grabbed.style.background = `radial-gradient(circle at 35% 30%, ${winnerType.color}, ${winnerType.color}cc 55%, ${winnerType.color}88 100%)`;
-        await wait(300);
-        grabbed.classList.add('visible');
-        await wait(250);
+        grabbed.style.background = winnerType.color;
+        grabbed.textContent = winnerType.name.slice(0, 3);
+        grabbed.style.color = 'rgba(0,0,0,0.7)';
 
-        // 4) Retract up.
+        if (chosenBall) {
+          chosenBall.dataset.taken = '1';
+          chosenBall.classList.remove('targeted');
+          // Stop the bounce, snap up into the grip, then fade.
+          chosenBall.style.animation = 'none';
+          chosenBall.style.transition = 'transform 0.3s ease-out, opacity 0.3s ease-out';
+          chosenBall.style.transform = 'translateY(-14px) scale(0.55)';
+          chosenBall.style.opacity = '0';
+        }
+        // Pop-in scale on the grabbed element so the grab feels punchy.
+        grabbed.style.transform = 'scale(1.15)';
+        grabbed.classList.add('visible');
+        await wait(180);
+        grabbed.style.transform = 'scale(1)';
+        await wait(160);
+        if (chosenBall) chosenBall.style.display = 'none';
+
+        // 4) Retract.
         arm.style.height = '30px';
-        await wait(1200);
+        await wait(1100);
 
         // 5) Slide to the chute on the right.
         arm.style.left = '86%';
@@ -2197,6 +2290,7 @@
         arm.classList.remove('closing');
         await wait(220);
         grabbed.classList.remove('visible');
+        grabbed.textContent = '';
 
         // 7) Reveal ball pops open, label appears.
         ball.style.background = `radial-gradient(circle at 35% 30%, ${winnerType.color}, ${winnerType.color}cc 55%, ${winnerType.color}88 100%)`;
@@ -2218,7 +2312,6 @@
         if (pullIdx === 1 && state.typeCount === 2) {
           arm.style.transition = 'none';
           arm.style.left = '10%';
-          // Force reflow then restore transition.
           void arm.offsetHeight;
           arm.style.transition = '';
           await wait(250);
@@ -2689,13 +2782,21 @@
         ${renderWheelLegend(segments)}`;
       }
 
-      case 'typecount':
+      case 'typecount': {
+        // Persist the landed face when revisiting — without this, navigating back
+        // and forward resets the rotation to 0 and the coin always looks like "1".
+        const settled = state.typeCount === 2
+          ? 'transform: rotateY(180deg); transition: none;'
+          : state.typeCount === 1
+          ? 'transform: rotateY(0deg); transition: none;'
+          : '';
         return `<div class="coin-wrap">
-          <div class="coin" id="coin-element">
-            <div class="coin-face heads">${renderPokeballCoin(1)}</div>
-            <div class="coin-face tails">${renderPokeballCoin(2)}</div>
+          <div class="coin" id="coin-element" style="${settled}">
+            ${renderCoinFace(1, 'heads')}
+            ${renderCoinFace(2, 'tails')}
           </div>
         </div>`;
+      }
 
       case 'types':
         return renderClawMachine();
@@ -3135,26 +3236,51 @@
    * formKind: 'normal' (default) | 'mega' | 'giga'
    */
   function buildPollinationsPrompt(formKind = 'normal') {
-    // Subject-first ordering: FLUX & gpt-image weight the first 60–80 tokens hardest,
-    // so we lead with WHAT to draw before HOW. See AI_RESEARCH.md for details.
+    // Pick a small set of real Pokémon as style anchors based on the primary type.
+    // Naming actual Pokémon by name is the strongest single thing we can do to push
+    // the model toward Pokémon style instead of generic-monster style — gptimage
+    // and flux both recognize these names as visual references.
+    const TYPE_REFERENCES = {
+      FIRE:     ['Charizard', 'Arcanine', 'Cinderace'],
+      WATER:    ['Greninja', 'Vaporeon', 'Inteleon'],
+      GRASS:    ['Decidueye', 'Sceptile', 'Meganium'],
+      ELECTRIC: ['Pikachu', 'Luxray', 'Zeraora'],
+      ICE:      ['Glaceon', 'Weavile', 'Frosmoth'],
+      FIGHTING: ['Lucario', 'Machamp', 'Hawlucha'],
+      POISON:   ['Toxapex', 'Salazzle', 'Naganadel'],
+      GROUND:   ['Garchomp', 'Krookodile', 'Excadrill'],
+      FLYING:   ['Staraptor', 'Talonflame', 'Corviknight'],
+      PSYCHIC:  ['Gardevoir', 'Espeon', 'Alakazam'],
+      BUG:      ['Scolipede', 'Volcarona', 'Heracross'],
+      ROCK:     ['Tyranitar', 'Aggron', 'Lycanroc'],
+      GHOST:    ['Gengar', 'Mimikyu', 'Chandelure'],
+      DRAGON:   ['Salamence', 'Dragapult', 'Haxorus'],
+      DARK:     ['Umbreon', 'Zoroark', 'Hydreigon'],
+      STEEL:    ['Metagross', 'Lucario', 'Aegislash'],
+      FAIRY:    ['Sylveon', 'Gardevoir', 'Tapu Koko'],
+      NORMAL:   ['Snorlax', 'Eevee', 'Slaking'],
+    };
+    const refs = TYPE_REFERENCES[state.type1.name] || ['Charizard', 'Lucario', 'Garchomp'];
+    const styleAnchor = refs.slice(0, 3).join(', ');
+
     const typeStr = state.type2
       ? `${state.type1.name.toLowerCase()}/${state.type2.name.toLowerCase()} dual-type`
       : `${state.type1.name.toLowerCase()}-type`;
     const stageDesc = state.stage === 1
-      ? 'small rounded base-form'
+      ? 'small rounded baby/base-form Pokémon'
       : state.stage === 2
-      ? 'mid-stage evolution'
-      : 'fully evolved final form, imposing silhouette';
+      ? 'mid-stage evolution Pokémon, more refined features'
+      : 'fully evolved final-form Pokémon, imposing silhouette';
     const rarityDesc =
-        state.rarity.name === 'LEGENDARY'       ? 'legendary creature with faint glowing aura'
-      : state.rarity.name === 'MYTHICAL'        ? 'mythical, delicate, otherworldly'
-      : state.rarity.name === 'ULTRA BEAST'     ? 'alien ultra beast with unnatural geometry'
-      : state.rarity.name === 'PSEUDO-LEGENDARY'? 'powerful draconic pseudo-legendary'
+        state.rarity.name === 'LEGENDARY'       ? 'legendary Pokémon with faint glowing aura, regal posture'
+      : state.rarity.name === 'MYTHICAL'        ? 'mythical Pokémon, small, delicate, otherworldly'
+      : state.rarity.name === 'ULTRA BEAST'     ? 'Ultra Beast Pokémon with alien anatomy and unnatural geometry'
+      : state.rarity.name === 'PSEUDO-LEGENDARY'? 'powerful pseudo-legendary Pokémon with draconic features'
       : '';
 
     let formCue = '';
-    if (formKind === 'mega') formCue = ', Mega-Evolution form with dramatic new crests and secondary markings';
-    else if (formKind === 'giga') formCue = ', colossal Gigantamax form with surging red energy patterns';
+    if (formKind === 'mega') formCue = ', Mega-Evolution form with dramatic new crests, sharper limbs, secondary energy markings';
+    else if (formKind === 'giga') formCue = ', colossal Gigantamax form with surging red dynamax energy patterns';
 
     const typeToColor = {
       FIRE:'warm red and orange', WATER:'soft blue and cyan', GRASS:'fresh green and cream',
@@ -3168,30 +3294,43 @@
     const colorHint = [state.type1, state.type2].filter(Boolean)
       .map(t => typeToColor[t.name] || t.name.toLowerCase()).join(' with ');
 
-    // Subject (lead) → composition → rarity flavor → palette → style. Trim style verbiage hard.
+    // Subject-first prompt structure with strong Pokémon-franchise framing.
+    // Avoid the words "monster" / "creature" — they pull toward generic D&D / kaiju
+    // outputs. Use "Pokémon character" everywhere instead.
     const parts = [
-      `single original Pokémon creature, full body, centered, three-quarter angled pose`,
+      `single original Pokémon character from the Pokémon video game franchise by Nintendo and Game Freak`,
+      `full body, centered in frame, three-quarter angled hero pose, plain white floor`,
       `${stageDesc}, ${typeStr}${formCue}`,
       rarityDesc,
-      `${colorHint} palette`,
-      `official Pokémon artwork style by Ken Sugimori, hand-drawn watercolor and ink illustration, soft cel shading, big expressive eyes, anime monster design`,
-      `solid pure white background`,
+      `same official artwork style as ${styleAnchor} — same proportions, same line weight, same shading language`,
+      `${colorHint} color palette`,
+      `official Pokémon character artwork by Ken Sugimori, hand-drawn watercolor and ink illustration, Pokémon Trading Card Game illustrated card art aesthetic, Game Freak character design sheet`,
+      `bold black ink outlines, soft cel shading with one gentle highlight pass, big expressive cartoon eyes with white catch-lights, friendly anime mascot character design`,
+      `solid pure white background, studio promotional artwork`,
     ].filter(Boolean);
     return parts.join(', ');
   }
 
   /**
    * Negative prompt — moves prohibitions out of the positive prompt where they're
-   * largely ignored. Suppresses the most common Pollinations failure modes.
+   * largely ignored. Strong "not a generic monster" push because that was a
+   * reported failure mode. Also kills text/watermarks/extra creatures.
    */
   function buildPollinationsNegativePrompt() {
     return [
+      // Text / branding
       'text', 'words', 'letters', 'logo', 'watermark', 'signature', 'caption',
-      'ui', 'hud', 'frame', 'border',
-      'multiple creatures', 'group', 'pair', 'two characters', 'herd', 'crowd',
-      'human', 'trainer', 'person', 'hands holding',
-      'pokeball', 'gameboy', 'screen', 'photograph', '3d render', 'cgi',
-      'low quality', 'blurry', 'deformed', 'extra limbs',
+      'ui', 'hud', 'frame', 'border', 'speech bubble',
+      // Multiple subjects
+      'multiple creatures', 'group', 'pair', 'two characters', 'herd', 'crowd', 'duplicate',
+      // Humans / props (Pokémon character should stand alone)
+      'human', 'trainer', 'person', 'hands holding', 'pokeball in scene', 'gameboy', 'screen',
+      // Wrong style buckets — these are the "generic monster" failure modes
+      'generic monster', 'D&D monster', 'kaiju', 'horror creature', 'realistic animal',
+      'photograph', 'photo', '3d render', 'octane render', 'cgi', 'sculpture', 'figurine',
+      'oil painting', 'realistic fur', 'gritty', 'dark fantasy',
+      // Quality
+      'low quality', 'blurry', 'deformed', 'extra limbs', 'mutated', 'malformed',
     ].join(', ');
   }
 
@@ -3396,14 +3535,41 @@ COLORS:
   // Main entry point
   // ------------------------------------------------------------
 
-  async function generateAiArt() {
+  // Tracks the last anonymous Pollinations call so we can enforce the ~15s cooldown
+  // before re-forging instead of letting the API return 429.
+  let lastPollinationsCallAt = 0;
+
+  async function generateAiArt(opts = {}) {
+    const force = !!(opts && opts.force);
     if (!state.type1) return;
-    if (state.aiArtData) return; // Art already generated — locked for this forge
+    if (state.aiArtData && !force) return; // Already generated — explicit re-forge required
 
     const btn = $('#btn-generate-art');
+    const frame = $('#art-frame');
+
+    if (force) {
+      // Wipe previous output so the UI shows fresh forging state.
+      state.aiArtData = null;
+      state.aiArtFormData = null;
+      state.aiArtFormKind = null;
+      state.lastAiError = null;
+      renderFinalView();
+    }
+
+    // Honor anonymous-tier cooldown (~15s between requests). Show a countdown.
+    const sinceLast = Date.now() - lastPollinationsCallAt;
+    if (sinceLast < 16000) {
+      btn.disabled = true;
+      let remaining = Math.ceil((16000 - sinceLast) / 1000);
+      while (remaining > 0) {
+        btn.textContent = `⏳ COOLDOWN ${remaining}s…`;
+        await new Promise(r => setTimeout(r, 1000));
+        remaining--;
+      }
+    }
+
     btn.disabled = true;
     btn.textContent = '🎨 FORGING...';
-    const frame = $('#art-frame');
     frame.innerHTML = `<div class="art-loading">
       <div style="font-size:32px;">⚙</div>
       <div>FORGING SPRITE...</div>
@@ -3418,15 +3584,19 @@ COLORS:
     };
     log('environment', diagnoseEnvironment());
     const cfg = await loadAiConfig();
+    // Always use a fresh seed when re-forging, even if the user has pinned one
+    // — pinned seeds are mostly for "give me the same art back" debugging, not for re-forge.
+    const cfgForCall = force ? { ...cfg, pollinationsSeed: '' } : cfg;
 
     // Primary (normal) form generation.
     try {
-      const result = await tryPollinations(cfg, log, 'normal');
+      lastPollinationsCallAt = Date.now();
+      const result = await tryPollinations(cfgForCall, log, 'normal');
       state.aiArtData = result.kind === 'svg' ? 'inline:' + result.data : result.data;
       state.lastAiError = null;
       renderFinalView();
-      toast('✓ AI ART FORGED');
-      btn.textContent = '✓ ART LOCKED';
+      toast(force ? '✓ AI ART RE-FORGED' : '✓ AI ART FORGED');
+      btn.textContent = '🎨 RE-FORGE ART';
     } catch (e) {
       log('PRIMARY FAILED', `${e.name || 'Error'}: ${e.message || String(e)}`);
       if (window.console) console.error('[PokeForge AI] Full log:', debugLog);
@@ -3448,29 +3618,34 @@ COLORS:
 
     // Mega / Gigantamax — fire a second render for the transformed form after the
     // anonymous-tier rate-limit window clears. Runs in the background; the normal
-    // form stays visible meanwhile.
+    // form stays visible meanwhile. Skip if re-forging — re-forge is normal-form only,
+    // user can explicitly trigger another re-forge for the alt form if they want.
+    if (force) { btn.disabled = false; return; }
     const formKind = state.perk?.kind === 'mega' ? 'mega'
                    : state.perk?.kind === 'giga' ? 'giga' : null;
     if (formKind) {
       const label = formKind === 'mega' ? 'MEGA' : 'GIGANTAMAX';
       btn.disabled = true;
       btn.textContent = `⏳ ${label} IN 16s…`;
-      // Wait out the anonymous Pollinations cooldown.
       await new Promise(r => setTimeout(r, 16000));
       btn.textContent = `🎨 FORGING ${label}…`;
       try {
-        const formResult = await tryPollinations(cfg, log, formKind);
+        lastPollinationsCallAt = Date.now();
+        const formResult = await tryPollinations(cfgForCall, log, formKind);
         state.aiArtFormData = formResult.kind === 'svg' ? 'inline:' + formResult.data : formResult.data;
         state.aiArtFormKind = formKind;
         renderFinalView();
         toast(`✓ ${label} FORM FORGED`);
-        btn.textContent = '✓ ART LOCKED';
+        btn.textContent = '🎨 RE-FORGE ART';
+        btn.disabled = false;
       } catch (e) {
         log('FORM FAILED', `${e.name || 'Error'}: ${e.message || String(e)}`);
         toast(`${label} FORM FAILED — normal form kept`);
         btn.disabled = false;
         btn.textContent = `🎨 RETRY ${label} FORM`;
       }
+    } else {
+      btn.disabled = false;
     }
   }
 
@@ -3696,7 +3871,10 @@ COLORS:
     $('#btn-reset-wizard').addEventListener('click', () => {
       if (confirm('Reset all forge progress?')) resetAll();
     });
-    $('#btn-generate-art').addEventListener('click', generateAiArt);
+    $('#btn-generate-art').addEventListener('click', () => {
+      // Click semantics: first run = forge, subsequent runs = explicit re-forge.
+      generateAiArt({ force: !!state.aiArtData });
+    });
     $('#btn-save-dex').addEventListener('click', saveToDex);
     $('#btn-forge-another').addEventListener('click', () => {
       if (confirm('Forge a new Pokémon? Current specimen will be lost unless you saved it.')) resetAll();
